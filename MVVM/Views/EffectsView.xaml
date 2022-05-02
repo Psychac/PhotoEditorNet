@@ -6,9 +6,124 @@
              xmlns:local="clr-namespace:PhotoEditorNet.MVVM.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Effects will be displayed here"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center"/>
-    </Grid>
+    <StackPanel Orientation="Horizontal">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" 
+                      VerticalScrollBarVisibility="Disabled"
+                      Margin="10">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                <Grid>
+                    <Button>
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_Original"
+                               Initialized="Effects_Original_Initialized"></Image>
+                    </Button>
+                    <Label Content="Original"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <Button>
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_Sepia"></Image>
+                    </Button>
+                    <Label Content="Sepia"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <Button>
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_Greyscale"></Image>
+                    </Button>
+                    <Label Content="Greyscale"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <Button>
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_Negative"></Image>
+                    </Button>
+                    <Label Content="Negative"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <Button>
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_Blur"></Image>
+                    </Button>
+                    <Label Content="Blur"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+            <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                <Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/>
+                <TextBlock Text="Apply"></TextBlock>
+            </WrapPanel>
+        </Button>
+        <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+            <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                <Image Source="/Images/close.png"
+                           Width="18"
+                           Height="18"
+                           Margin="0,0,5,0"/>
+                <TextBlock Text="Discard"></TextBlock>
+            </WrapPanel>
+        </Button>
+    </StackPanel>
+    
 </UserControl>

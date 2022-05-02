@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PhotoEditorNet;
 
 namespace PhotoEditorNet.MVVM.Views
 {
@@ -20,9 +22,25 @@ namespace PhotoEditorNet.MVVM.Views
     /// </summary>
     public partial class HomeView : UserControl
     {
+        private Bitmap beforeEdit;
+        private Bitmap afterEdit;
+        MainWindow window2;
+       
+
         public HomeView()
         {
             InitializeComponent();
+            window2 = Application.Current.Windows
+    .Cast<Window>()
+    .FirstOrDefault(window => window is MainWindow) as MainWindow;
+            //beforeEdit = window2.EditedImage;
+            
+        }
+
+        private void Rotate90Left_Click(object sender, RoutedEventArgs e)
+        {
+            //afterEdit = beforeEdit.RotateFlip(RotateFlipType.Rotate270FlipNone);
+            //window2.EditedImage = beforeEdit;
         }
     }
 }

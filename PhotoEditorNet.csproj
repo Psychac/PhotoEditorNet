@@ -103,6 +103,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\SliderTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MVVM\ViewModel\ColorViewModel.cs" />
@@ -203,6 +207,25 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\insert-picture-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\close.png" />
+    <Resource Include="Images\tick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\font.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\eraser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\four-grouped-arrows-button-to-move.png" />
+    <Resource Include="Images\back-to-original.png" />
+    <Resource Include="Images\zoom-in.png" />
+    <Resource Include="Images\zoom-out.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -22,8 +22,8 @@ namespace PhotoEditorNet.MVVM.Views
     {
 
         public ICollection<FontFamily> FontCollection = Fonts.SystemFontFamilies;
-      
-        public FontFamily selectedFontFamily;
+
+        public FontFamily selectedFontFamily = new FontFamily("Arial");
         private static readonly double[] CommonlyUsedFontSizes =
         {
             3.0, 4.0, 5.0, 6.0, 6.5,
@@ -50,18 +50,35 @@ namespace PhotoEditorNet.MVVM.Views
         {
             // Enumerate the current set of system fonts,
             // and fill the combo box with the names of the fonts.
-            foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+            ICollection<FontFamily> fontFamilies = Fonts.SystemFontFamilies;
+            string[] fFamilies = new string[Fonts.SystemFontFamilies.Count];
+            int i = 0;
+            foreach (FontFamily family in fontFamilies)
+            {
+                fFamilies[i++] = family.Source;
+            }
+            Array.Sort(fFamilies);
+            //foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+            //{
+            //    // FontFamily.Source contains the font family name.
+            //    comboBoxFonts.Items.Add(fontFamily);
+            //}
+
+            foreach (string fontFamily in fFamilies)
             {
                 // FontFamily.Source contains the font family name.
-                comboBoxFonts.Items.Add(fontFamily.Source);
+                comboBoxFonts.Items.Add(fontFamily);
             }
-
             comboBoxFonts.SelectedIndex = 0;
+            var sf = comboBoxFonts.SelectedItem;
+            selectedFontFamily = (from x in fontFamilies
+                                  where x.Source == (string)sf
+                                  select x).FirstOrDefault(); ;
         }
 
         private void FontSizeChooser_Initialized(object sender, EventArgs e)
         {
-            foreach(var value in CommonlyUsedFontSizes)
+            foreach (var value in CommonlyUsedFontSizes)
             {
                 FontSizeChooser.Items.Add(value);
             }
@@ -69,67 +86,51 @@ namespace PhotoEditorNet.MVVM.Views
         }
 
 
-        private void TypeFaceChooser_Initialized(object sender, EventArgs e)
-        {
-            TypeFaceChooserFunc(TypeFaceChooser);
-        }
+        //    private void TypeFaceChooser_Initialized(object sender, EventArgs e)
+        //    {
+        //        TypeFaceChooserFunc(TypeFaceChooser);
+        //    }
 
 
-        public void TypeFaceChooserFunc(ComboBox cb)
-        {
-            var family = selectedFontFamily;
-            if (family != null)
-            {
-                var faceCollection = family.GetTypefaces();
+        //    public void TypeFaceChooserFunc(ComboBox cb)
+        //    {
+        //        var family = selectedFontFamily;
+        //        //cb.Items.Add((FontFamily)selectedFontFamily);
+        //        if (family != null)
+        //        {
+        //            var faceCollection = family.GetTypefaces();
+        //            //var fc = family.FamilyTypeface.Adj
 
-                //var items = new TypefaceListItem[faceCollection.Count];
+        //            //var items = new TypefaceListItem[faceCollection.Count];
 
-                //var i = 0;
+        //            //var i = 0;
 
-                //foreach (var face in faceCollection)
-                //{
-                //    items[i++] = new TypefaceListItem(face);
-                //}
+        //            //foreach (var face in faceCollection)
+        //            //{
+        //            //    items[i++] = new TypefaceListItem(face);
+        //            //}
 
-                //Array.Sort(items);
+        //            //Array.Sort(items);
+        //            if(faceCollection.Count > 0)
+        //            {
+        //                foreach (var face in faceCollection)
+        //                {
+        //                    cb.Items.Add(face.Style);
+        //                    cb.Items.Add(face.Weight);
+        //                    cb.Items.Add(face.Stretch);
+        //                }
+        //            }
 
-                foreach (var face in faceCollection)
-                {
-                    cb.Items.Add(face);
-                }
-            }
-        }
+        //        }
+        //    }
 
         private void FontChooser_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //TypeFaceChooser.Items.Clear();
             selectedFontFamily = FontChooser.SelectedItem as FontFamily;
-            
-            TypeFaceChooserFunc(TypeFaceChooser);
+            //TypeFaceChooserFunc(TypeFaceChooser);
         }
 
-        private void FontFace_Initialized(object sender, EventArgs e)
-        {
-            var family = selectedFontFamily;
-            if (family != null)
-            {
-                var faceCollection = family.GetTypefaces();
-                
-                //var items = new TypefaceListItem[faceCollection.Count];
-
-                //var i = 0;
-
-                //foreach (var face in faceCollection)
-                //{
-                //    items[i++] = new TypefaceListItem(face);
-                //}
-
-                //Array.Sort(items);
-
-                foreach (var face in faceCollection)
-                {
-                    FontFace.Items.Add(face);
-                }
-            }
-        }
+        //}
     }
 }

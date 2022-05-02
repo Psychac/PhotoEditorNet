@@ -6,9 +6,68 @@
              xmlns:local="clr-namespace:PhotoEditorNet.MVVM.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Color Sliders"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"/>
-    </Grid>
+    <StackPanel Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="10">
+        <StackPanel Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Slider Width="100"
+                    Template="{StaticResource SliderTemplate}"/>
+            <Label Content="Red"/>
+        </StackPanel>
+        <StackPanel Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Slider Width="100"
+                    Template="{StaticResource SliderTemplate}"/>
+            <Label Content="Blue"/>
+        </StackPanel>
+        <StackPanel Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Slider Width="100"
+                    Template="{StaticResource SliderTemplate}"/>
+            <Label Content="Green"/>
+        </StackPanel>
+        <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+            <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                <Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/>
+                <TextBlock Text="Apply"></TextBlock>
+            </WrapPanel>
+        </Button>
+        <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+            <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                <Image Source="/Images/close.png"
+                           Width="18"
+                           Height="18"
+                           Margin="0,0,5,0"/>
+                <TextBlock Text="Discard"></TextBlock>
+            </WrapPanel>
+        </Button>
+    </StackPanel>
 </UserControl>

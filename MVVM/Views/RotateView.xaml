@@ -14,10 +14,14 @@
         <StackPanel HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
-                    Margin="10">
-            <Button Margin="10,0,10,0"
+                    Margin="0">
+            <Button Margin="5,0,5,0"
                     Background="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50"
+                    x:Name="Rotate90Left"
+                    Click="Rotate90Left_Click">
                 <StackPanel>
                     <Image Source="/Images/rotate-left.png"
                        Height="25"
@@ -25,9 +29,11 @@
                     
                 </StackPanel>
             </Button>
-            <Button Margin="10,0,10,0"
+            <Button Margin="5,0,5,0"
                     Background="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                 <StackPanel>
                     <Image Source="/Images/rotate-right.png"
                        Height="25"
@@ -35,9 +41,11 @@
                     
                 </StackPanel>
             </Button>
-            <Button Margin="10,0,10,0"
+            <Button Margin="5,0,5,0"
                     Background="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                 <StackPanel>
                     <Image Source="/Images/rotate.png"
                        Height="25"
@@ -45,9 +53,11 @@
                     
                 </StackPanel>
             </Button>
-            <Button Margin="10,0,10,0"
+            <Button Margin="5,0,5,0"
                     Background="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                 <StackPanel>
                     <Image Source="/Images/flip-horizontal.png"
                        Height="25"
@@ -55,9 +65,11 @@
                     
                 </StackPanel>
             </Button>
-            <Button Margin="10,0,10,0"
+            <Button Margin="5,0,5,0"
                     Background="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                 <StackPanel>
                     <Image Source="/Images/flip-vertical.png"
                        Height="25"
@@ -65,25 +77,67 @@
                     
                 </StackPanel>
             </Button>
-            <Button Margin="10,0,10,0"
+            <Button Margin="5,0,5,0"
                     Background="Transparent"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                 <StackPanel>
                     <Image Source="/Images/trash.png"
                        Height="25"
                        Width="25"/>
                 </StackPanel>
             </Button>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/>
+                    <TextBlock Text="Apply"></TextBlock>
+                </WrapPanel>
+            </Button>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
 
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <Image Source="/Images/close.png"
+                           Width="18"
+                           Height="18"
+                           Margin="0,0,5,0"/>
+                    <TextBlock Text="Discard"></TextBlock>
+                </WrapPanel>
+            </Button>
         </StackPanel>
         <StackPanel Grid.Row="1"
-                    Margin="10"
+                    Margin="0"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <Slider Width="200"/>
+            <Slider Width="200"
+                    Margin="10"
+                    Template="{StaticResource SliderTemplate}"/>
             <TextBlock Text="Rotation Slider"
-                       Foreground="Black"/>
+                       Foreground="Black"
+                       Margin="10"/>
         </StackPanel>
     </Grid>
     

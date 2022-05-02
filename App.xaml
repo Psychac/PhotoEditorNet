@@ -9,8 +9,9 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/MenuButtonTheme.xaml"/>
+                <ResourceDictionary Source="Themes/SliderTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
+           
             <DataTemplate DataType="{x:Type viewModel:RotateViewModel}">
                 <view:HomeView/>
             </DataTemplate>

@@ -24,5 +24,10 @@ namespace PhotoEditorNet.MVVM.Views
         {
             InitializeComponent();
         }
+
+        private void Effects_Original_Initialized(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

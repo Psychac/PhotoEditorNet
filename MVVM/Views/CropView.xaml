@@ -11,16 +11,139 @@
                         Margin="10"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
-            <Button Content="Freeform"
-                    Margin="20,0,20,0"/>
-            <Button Content="1:1"
-                    Margin="20,0,20,0"/>
-            <Button Content="4:3"
-                    Margin="20,0,20,0"/>
-            <Button Content="16:9"
-                    Margin="20,0,20,0"/>
-            <Button Content="Reset"
-                    Margin="20,0,20,0"/>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <!--Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/-->
+                    <TextBlock Text="Freeform"></TextBlock>
+                </WrapPanel>
+            </Button>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <!--Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/-->
+                    <TextBlock Text="1 : 1"></TextBlock>
+                </WrapPanel>
+            </Button>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <!--Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/-->
+                    <TextBlock Text="4 : 3"></TextBlock>
+                </WrapPanel>
+            </Button>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <!--Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/-->
+                    <TextBlock Text="16 : 9"></TextBlock>
+                </WrapPanel>
+            </Button>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <!--Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/-->
+                    <TextBlock Text="Reset"></TextBlock>
+                </WrapPanel>
+            </Button>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <Image Source="/Images/tick.png"
+                           Width="20"
+                           Height="20"
+                           Margin="0,0,5,0"/>
+                    <TextBlock Text="Apply"></TextBlock>
+                </WrapPanel>
+            </Button>
+            <Button Height="50"
+                    Width="100"
+                    Margin="5,10,5,10"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <WrapPanel VerticalAlignment="Center"
+                           HorizontalAlignment="Center">
+                    <Image Source="/Images/close.png"
+                           Width="18"
+                           Height="18"
+                           Margin="0,0,5,0"/>
+                    <TextBlock Text="Discard"></TextBlock>
+                </WrapPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

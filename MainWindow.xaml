@@ -57,6 +57,11 @@
                                    FontSize='20'
                                    Margin="10"/>
                     </WrapPanel>
+                    <RadioButton.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </RadioButton.Resources>
                 </RadioButton>
 
                 <RadioButton 
@@ -73,6 +78,11 @@
                                    FontSize='20'
                                    Margin="10"/>
                     </WrapPanel>
+                    <RadioButton.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </RadioButton.Resources>
                 </RadioButton>
 
                 <RadioButton 
@@ -89,6 +99,11 @@
                                    FontSize='20'
                                    Margin="10"/>
                     </WrapPanel>
+                    <RadioButton.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </RadioButton.Resources>
                 </RadioButton>
                 <RadioButton 
                              Foreground="Black"
@@ -104,6 +119,11 @@
                                    FontSize='20'
                                    Margin="10"/>
                     </WrapPanel>
+                    <RadioButton.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </RadioButton.Resources>
                 </RadioButton>
                 <RadioButton 
                              Foreground="Black"
@@ -119,6 +139,11 @@
                                    FontSize='20'
                                    Margin="10"/>
                     </WrapPanel>
+                    <RadioButton.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </RadioButton.Resources>
                 </RadioButton>
                 <RadioButton
                              Foreground="Black"
@@ -134,6 +159,11 @@
                                    FontSize='20'
                                    Margin="10"/>
                     </WrapPanel>
+                    <RadioButton.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </RadioButton.Resources>
                 </RadioButton>
                 <RadioButton
                              Foreground="Black"
@@ -149,6 +179,11 @@
                                    FontSize='20'
                                    Margin="10"/>
                     </WrapPanel>
+                    <RadioButton.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </RadioButton.Resources>
                 </RadioButton>
 
             </StackPanel>
@@ -165,11 +200,13 @@
                             VerticalAlignment="Center">
                     <Button VerticalAlignment="Center"
                             HorizontalAlignment="Right"
-                            Margin="50,0,0,0"
+                            Margin="50,0,5,0"
                             Background="Transparent"
                             BorderThickness="0"
                             x:Name="OpenFile"
                             Click="OpenFile_Click"
+                            Width="50"
+                    Height="50"
                             >
                         <Image Source="/Images/folder.png"
                                Height="25"
@@ -178,78 +215,137 @@
                     </Button>
                     <Button VerticalAlignment="Center"
                             HorizontalAlignment="Right"
-                            Margin="20,0,0,0"
+                            Margin="5,0,5,0"
                             Background="Transparent"
                             BorderThickness="0"
                             x:Name="CloseFile"
-                            Click="CloseFile_Click">
+                            Click="CloseFile_Click"
+                            Width="50"
+                    Height="50">
                         <Image Source="/Images/folder(1).png"
                                
                                Height="25"
                                Width="25"
                                />
                     </Button>
-                </StackPanel>
+                    <Button Margin="50,0,5,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50"
+                            x:Name="zoomIn"
+                            Click="zoomIn_Click">
+                        <StackPanel>
+                            <Image Source="/Images/zoom-in.png"
+                       Height="25"
+                       Width="25"/>
 
+                        </StackPanel>
+
+                    </Button>
+                    <Button Margin="5,0,5,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50"
+                            x:Name="zoomOut"
+                            Click="zoomOut_Click">
+                        <StackPanel>
+                            <Image Source="/Images/zoom-out.png"
+                       Height="25"
+                       Width="25"/>
+
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="5,0,5,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50"
+                            x:Name="backToOriginal"
+                            Click="backToOriginal_Click">
+                        <StackPanel>
+                            <Image Source="/Images/back-to-original.png"
+                       Height="25"
+                       Width="25"/>
+
+                        </StackPanel>
+                    </Button>
+                    <CheckBox Margin="0,0,5,0"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          Width="50"
+                          Height="50"
+                          VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Center"
+                          IsChecked="True"
+                              x:Name="AllowPan"
+                          >
+                        <Image Source="/Images/four-grouped-arrows-button-to-move.png"
+                       Height="25"
+                       Width="25"/>
+                    </CheckBox>
+                </StackPanel>
+                <!--Top Right controls-->
                 <StackPanel Grid.Column="2"
                             Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center">
-                    <Button VerticalAlignment="Center"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,20,0"
-                            Background="Transparent"
-                            BorderThickness="0">
+                    <Button Margin="5,0,5,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                         <Image Source="/Images/undo.png"
                                Height="25"
                                Width="25"
                                />
                     </Button>
-                    <Button VerticalAlignment="Center"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,20,0"
-                            Background="Transparent"
-                            BorderThickness="0">
+                    <Button Margin="5,0,5,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                         <Image Source="/Images/redo.png"
                                Height="25"
                                Width="25"
                                />
                     </Button>
-                    <Button VerticalAlignment="Center"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,20,0"
-                            Background="Transparent"
-                            BorderThickness="0">
+                    <Button Margin="5,0,5,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                         <Image Source="/Images/compare.png"
                                Height="25"
                                Width="25"
                                />
                     </Button>
-                    <Button VerticalAlignment="Center"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,20,0"
-                            Background="Transparent"
-                            BorderThickness="0">
+                    <Button Margin="5,0,5,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                         <Image Source="/Images/trash.png"
                                Height="25"
                                Width="25"
                                />
                     </Button>
-                    <Button VerticalAlignment="Center"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,20,0"
-                            Background="Transparent"
-                            BorderThickness="0">
+                    <Button Margin="5,0,5,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                         <Image Source="/Images/diskette.png"
                                Height="25"
                                Width="25"
                                />
                     </Button>
-                    <Button VerticalAlignment="Center"
-                            HorizontalAlignment="Right"
-                            Margin="0,0,50,0"
-                            Background="Transparent"
-                            BorderThickness="0">
+                    <Button Margin="5,0,50,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="50"
+                    Height="50">
                         <Image Source="/Images/export.png"
                                Height="25"
                                Width="25"
@@ -300,6 +396,15 @@
 
             </ContentControl>
 
+            <WrapPanel Grid.Row="0"
+                       Grid.Column="1"
+                       Panel.ZIndex="0"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Center"
+                       Margin="20">
+                
+
+            </WrapPanel>
             <Canvas Grid.Column="1"
                    Grid.Row="1"
                     Margin="0"
@@ -309,7 +414,6 @@
                     x:Name="border"
                     >
                 <Image Source="/Images/insert-picture-icon.png"
-                       
                        Height="64"
                        Width="64"
                        x:Name="MainImage"
@@ -318,6 +422,7 @@
                        MouseLeftButtonDown="MainImage_MouseLeftButtonDown"
                        MouseMove="MainImage_MouseMove"
                        MouseLeftButtonUp="MainImage_MouseLeftButtonUp"
+                       
                        >
                     <Image.RenderTransform>
                         <TransformGroup>
