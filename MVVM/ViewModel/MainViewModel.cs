@@ -1,6 +1,7 @@
 ﻿using PhotoEditorNet.Core;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,18 @@ namespace PhotoEditorNet.MVVM.ViewModel
 {
     internal class MainViewModel : ObersvableObject
     {
+
+        private Bitmap _OriginalImage;
+        public Bitmap OriginalImage
+        {
+            get { return _OriginalImage; }
+            set
+            {
+                _OriginalImage = value;
+                onProperyChanged(nameof(OriginalImage));
+            }
+
+        }
 
         public RelayCommand RotateViewCommand { get; set; }
         public RelayCommand CropViewCommand { get; set; }

@@ -73,6 +73,13 @@ namespace PhotoEditorNet
             }
         }
 
+        private void MainImage_Initialized(object sender, EventArgs e)
+        {
+            //BitmapImage img = new BitmapImage(new Uri(("pack://application:,,,/PhotoEditorNet;component/insert-picture-icon.png"), UriKind.Absolute)) as BitmapImage;
+            
+            //MainImage.Source = BitmapToSource(new Bitmap(img.StreamSource));
+        }
+
         private void CloseFile_Click(object sender, RoutedEventArgs e)
         {
             if (OriginalImage != null)
@@ -156,8 +163,9 @@ namespace PhotoEditorNet
                 st.ScaleY += 0.2;
             }
         }
+
         #endregion
 
-
+        
     }
 }

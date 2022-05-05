@@ -206,7 +206,9 @@
     <Resource Include="Images\magic-tool.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\insert-picture-icon.png" />
+    <Resource Include="Images\insert-picture-icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\close.png" />
@@ -226,6 +228,9 @@
     <Resource Include="Images\back-to-original.png" />
     <Resource Include="Images\zoom-in.png" />
     <Resource Include="Images\zoom-out.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="insert-picture-icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

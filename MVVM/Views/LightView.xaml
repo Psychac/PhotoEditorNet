@@ -13,22 +13,68 @@
         <StackPanel Margin="10"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
-            <Slider Width="100"
-                    Template="{StaticResource SliderTemplate}"/>
+            <Slider x:Name="BrightnessSlider"
+                    Width="100"
+                    Template="{StaticResource SliderTemplate}"
+                    Orientation="Horizontal"
+                    TickPlacement="BottomRight"
+                    ValueChanged="UpdateLight" 
+                    VerticalAlignment="Center" 
+                    Value="0" 
+                    IsSnapToTickEnabled="True" 
+                    Minimum="-0.5" 
+                    Maximum="0.5" 
+                    LargeChange="0.001" 
+                    SmallChange="0.0001" 
+                    TickFrequency="0.1" 
+                    Margin="0,5,0,0"/>
             <Label Content="Brightness"/>
         </StackPanel>
         <StackPanel Margin="10"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
             <Slider Width="100"
-                    Template="{StaticResource SliderTemplate}"/>
+                    Template="{StaticResource SliderTemplate}"
+                    x:Name="ContrastSlider"
+                    Value="1"
+                    ValueChanged="UpdateLight"
+                    Minimum="0"
+                    Maximum="2"
+                    SmallChange="0.002"
+                    LargeChange="0.02"
+                    TickFrequency="0.2" 
+                    />
             <Label Content="Contrast"/>
         </StackPanel>
         <StackPanel Margin="10"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
             <Slider Width="100"
-                    Template="{StaticResource SliderTemplate}"/>
+                    Template="{StaticResource SliderTemplate}"
+                    x:Name="SaturationSlider"
+                    Value="1"
+                    ValueChanged="UpdateLight"
+                    Minimum="0"
+                    Maximum="2"
+                    SmallChange="0.002"
+                    LargeChange="0.02"
+                    TickFrequency="0.2" 
+                    />
+            <Label Content="Saturation"/>
+        </StackPanel>
+        <StackPanel Margin="10"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <Slider Width="100"
+                    Template="{StaticResource SliderTemplate}"
+                    x:Name="GammaSlider"
+                    Value="1"
+                    ValueChanged="GammaSlider_ValueChanged"
+                    Minimum="0.5"
+                    Maximum="1.5"
+                    SmallChange="0.001"
+                    LargeChange="0.01"
+                    TickFrequency="0.1" />
             <Label Content="Gamma"/>
         </StackPanel>
         <Button Height="50"

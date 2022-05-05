@@ -14,7 +14,8 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center">
                 <Grid>
-                    <Button>
+                    <Button x:Name="Original"
+                            Click="Original_Click">
                         <Image Height="100"
                                Width="100"
                                x:Name="Effects_Original"
@@ -29,7 +30,8 @@
                            HorizontalContentAlignment="Center"/>
                 </Grid>
                 <Grid>
-                    <Button>
+                    <Button x:Name="Sepia"
+                            Click="Sepia_Click">
                         <Image Height="100"
                                Width="100"
                                x:Name="Effects_Sepia"></Image>
@@ -43,7 +45,8 @@
                            HorizontalContentAlignment="Center"/>
                 </Grid>
                 <Grid>
-                    <Button>
+                    <Button x:Name="Greyscale"
+                            Click="Greyscale_Click">
                         <Image Height="100"
                                Width="100"
                                x:Name="Effects_Greyscale"></Image>
@@ -57,12 +60,13 @@
                            HorizontalContentAlignment="Center"/>
                 </Grid>
                 <Grid>
-                    <Button>
+                    <Button x:Name="RGBtoBGR"
+                            Click="RGBtoBGR_Click">
                         <Image Height="100"
                                Width="100"
-                               x:Name="Effects_Negative"></Image>
+                               x:Name="Effects_RGB_To_BGR"></Image>
                     </Button>
-                    <Label Content="Negative"
+                    <Label Content="RGB to BGR"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
                            Background="#A0000000"
@@ -71,12 +75,43 @@
                            HorizontalContentAlignment="Center"/>
                 </Grid>
                 <Grid>
-                    <Button>
+                    <Button x:Name="Invert"
+                            Click="Invert_Click">
                         <Image Height="100"
                                Width="100"
-                               x:Name="Effects_Blur"></Image>
+                               x:Name="Effects_Invert"></Image>
                     </Button>
-                    <Label Content="Blur"
+                    <Label Content="Invert"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <Button x:Name="BlackandWhite"
+                            Click="BlackandWhite_Click">
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_BlackandWhite"></Image>
+                    </Button>
+                    <Label Content="Black and White"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <Button x:Name="Polaroid"
+                            Click="Polaroid_Click">
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_Polaroid"></Image>
+                    </Button>
+                    <Label Content="Polaroid"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
                            Background="#A0000000"

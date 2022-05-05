@@ -33,7 +33,9 @@
                     Background="Transparent"
                     BorderThickness="0"
                     Width="50"
-                    Height="50">
+                    Height="50"
+                    x:Name="Rotate90Right"
+                    Click="Rotate90Right_Click">
                 <StackPanel>
                     <Image Source="/Images/rotate-right.png"
                        Height="25"
@@ -45,7 +47,9 @@
                     Background="Transparent"
                     BorderThickness="0"
                     Width="50"
-                    Height="50">
+                    Height="50"
+                    x:Name="Rotate180"
+                    Click="Rotate180_Click">
                 <StackPanel>
                     <Image Source="/Images/rotate.png"
                        Height="25"
@@ -57,7 +61,9 @@
                     Background="Transparent"
                     BorderThickness="0"
                     Width="50"
-                    Height="50">
+                    Height="50"
+                    x:Name="FlipHorizontal"
+                    Click="FlipHorizontal_Click">
                 <StackPanel>
                     <Image Source="/Images/flip-horizontal.png"
                        Height="25"
@@ -69,7 +75,9 @@
                     Background="Transparent"
                     BorderThickness="0"
                     Width="50"
-                    Height="50">
+                    Height="50"
+                    x:Name="FlipVertical"
+                    Click="FlipVertical_Click">
                 <StackPanel>
                     <Image Source="/Images/flip-vertical.png"
                        Height="25"
@@ -81,7 +89,9 @@
                     Background="Transparent"
                     BorderThickness="0"
                     Width="50"
-                    Height="50">
+                    Height="50"
+                    x:Name="ResetRotation"
+                    Click="ResetRotation_Click">
                 <StackPanel>
                     <Image Source="/Images/trash.png"
                        Height="25"
@@ -134,7 +144,12 @@
                     VerticalAlignment="Center">
             <Slider Width="200"
                     Margin="10"
-                    Template="{StaticResource SliderTemplate}"/>
+                    Template="{StaticResource SliderTemplate}"
+                    x:Name="RotationSlider"
+                    Value="0"
+                    Minimum="-180"
+                    Maximum="180"
+                    ValueChanged="RotationSlider_ValueChanged"/>
             <TextBlock Text="Rotation Slider"
                        Foreground="Black"
                        Margin="10"/>
