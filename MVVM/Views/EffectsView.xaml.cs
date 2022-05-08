@@ -27,12 +27,106 @@ namespace PhotoEditorNet.MVVM.Views
         private Bitmap afterEdit;
         MainWindow window2;
 
+        //Color Matrices for effects
+        ColorMatrix MatrixSepia = new ColorMatrix(new float[][]
+            {
+                    new float[]{0.393f, 0.349f, 0.272f, 0, 0},
+                    new float[]{0.769f, 0.686f, 0.534f, 0, 0},
+                    new float[]{0.189f, 0.168f, 0.131f, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{0, 0, 0, 0, 1}
+            });
+
+        ColorMatrix MatrixGreyscale = new ColorMatrix(new float[][]
+            {
+                    new float[]{0.33f, 0.33f, 0.33f, 0, 0},
+                    new float[]{0.59f, 0.59f, 0.59f, 0, 0},
+                    new float[]{0.11f, 0.11f, 0.11f, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{0, 0, 0, 0, 1}
+            });
+
+        ColorMatrix MatrixRGBtoBGR = new ColorMatrix(new float[][]
+            {
+                    new float[]{0, 0, 1, 0, 0},
+                    new float[]{0, 1, 0, 0, 0},
+                    new float[]{1, 0, 0, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{0, 0, 0, 0, 1}
+            });
+
+        ColorMatrix MatrixInvert = new ColorMatrix(new float[][]
+            {
+                    new float[]{1, 0, 0, 0, 0},
+                    new float[]{0, -1, 0, 0, 0},
+                    new float[]{0, 0, -1, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{1, 1, 1, 0, 1}
+            });
+
+        ColorMatrix MatrixBlackandWhite = new ColorMatrix(new float[][]
+            {
+                    new float[]{1.5f, 1.5f, 1.5f, 0, 0},
+                    new float[]{1.5f, 1.5f, 1.5f, 0, 0},
+                    new float[]{1.5f, 1.5f, 1.5f, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{-1, -1, -1, 0, 1}
+            });
+
+        ColorMatrix MatrixPolaroid = new ColorMatrix(new float[][]
+                    {
+                    new float[]{1.438f, -0.062f, -0.062f, 0, 0},
+                    new float[]{-0.122f, 1.378f, -0.122f, 0, 0},
+                    new float[]{-0.016f, -0.016f, 1.483f, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{-0.03f, 0.05f, -0.02f, 0, 1}
+                    });
+
+        //Constructor
         public EffectsView()
         {
             InitializeComponent();
             window2 = Application.Current.Windows
             .Cast<Window>()
             .FirstOrDefault(window => window is MainWindow) as MainWindow;
+
+            //Setting thumbnails for the Effects
+            if(window2.OriginalImage != null)
+            {
+                BitmapImage ThumbnailOriginal = BitmapToSource(window2.OriginalImage);
+                ThumbnailOriginal.DecodePixelWidth = 200;
+                Effects_Original.Source = ThumbnailOriginal;
+
+                Bitmap Sepia = SetEffectUsingColorMatrix(window2.EditedImage, MatrixSepia);
+                BitmapImage ThumbnailSepia = BitmapToSource((Bitmap)Sepia);
+                ThumbnailSepia.DecodePixelWidth = 200;
+                Effects_Sepia.Source = ThumbnailSepia;
+
+                Bitmap GreyScale = SetEffectUsingColorMatrix(window2.EditedImage, MatrixGreyscale);
+                BitmapImage ThumbnailGreyscale = BitmapToSource((Bitmap)GreyScale);
+                ThumbnailGreyscale.DecodePixelWidth = 200;
+                Effects_Greyscale.Source = ThumbnailGreyscale;
+
+                Bitmap RGBtoBGR = SetEffectUsingColorMatrix(window2.EditedImage, MatrixRGBtoBGR);
+                BitmapImage ThumbNailRGBtoRGB = BitmapToSource((Bitmap)RGBtoBGR);
+                ThumbNailRGBtoRGB.DecodePixelWidth = 200;
+                Effects_RGB_To_BGR.Source = ThumbNailRGBtoRGB;
+
+                Bitmap Invert = SetEffectUsingColorMatrix(window2.EditedImage, MatrixInvert);
+                BitmapImage ThumbnailInvert = BitmapToSource((Bitmap)Invert);
+                ThumbnailInvert.DecodePixelWidth = 200;
+                Effects_Invert.Source = ThumbnailInvert;
+
+                Bitmap BlackandWhite = SetEffectUsingColorMatrix(window2.EditedImage, MatrixBlackandWhite);
+                BitmapImage ThumbnailBlackAndWhite = BitmapToSource((Bitmap)BlackandWhite);
+                ThumbnailBlackAndWhite.DecodePixelWidth = 200;
+                Effects_BlackandWhite.Source = ThumbnailBlackAndWhite;
+
+                Bitmap Polaroid = SetEffectUsingColorMatrix(window2.EditedImage, MatrixPolaroid);
+                BitmapImage ThumbnailPolaroid = BitmapToSource((Bitmap)Polaroid);
+                ThumbnailPolaroid.DecodePixelWidth = 200;
+                Effects_Polaroid.Source = ThumbnailPolaroid;
+            }
         }
 
         private static BitmapImage BitmapToSource(Bitmap src)
@@ -54,9 +148,18 @@ namespace PhotoEditorNet.MVVM.Views
                 window2.MainImage.Source = BitmapToSource(new Bitmap(window2.EditedImage));
         }
 
-        private void Effects_Original_Initialized(object sender, EventArgs e)
+        private Bitmap SetEffectUsingColorMatrix(Bitmap image,ColorMatrix colorMatrix)
         {
-            
+            Bitmap bmp = new Bitmap(image);
+            ImageAttributes imgattr = new ImageAttributes();
+            System.Drawing.Rectangle rc = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
+            imgattr.SetColorMatrix(colorMatrix);
+
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.DrawImage(bmp, rc, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, imgattr);
+            }
+            return bmp;
         }
 
         private void Original_Click(object sender, RoutedEventArgs e)
@@ -69,33 +172,13 @@ namespace PhotoEditorNet.MVVM.Views
             reload();
             if (IsLoaded)
             {
-
-                //Assigning color matrix
-                ColorMatrix colorMatrix = new ColorMatrix(new float[][]
-                    {
-                    new float[]{0.393f, 0.349f, 0.272f, 0, 0},
-                    new float[]{0.769f, 0.686f, 0.534f, 0, 0},
-                    new float[]{0.189f, 0.168f, 0.131f, 0, 0},
-                    new float[]{0, 0, 0, 1, 0},
-                    new float[]{0, 0, 0, 0, 1}
-                    });
-
                 //Getting the displayed image
                 BitmapImage img = window2.MainImage.Source as BitmapImage;
                 beforeEdit = new Bitmap(img.StreamSource);
 
-                Bitmap bmp = new Bitmap(beforeEdit);
-                ImageAttributes imgattr = new ImageAttributes();
-                System.Drawing.Rectangle rc = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-                imgattr.SetColorMatrix(colorMatrix);
-
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    g.DrawImage(bmp, rc, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, imgattr);
-                }
-
-                afterEdit = bmp;
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixSepia);
                 window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
+                
             }
         }
 
@@ -104,32 +187,11 @@ namespace PhotoEditorNet.MVVM.Views
             reload();
             if (IsLoaded)
             {
-
-                //Assigning color matrix
-                ColorMatrix colorMatrix = new ColorMatrix(new float[][]
-                    {
-                    new float[]{0.33f, 0.33f, 0.33f, 0, 0},
-                    new float[]{0.59f, 0.59f, 0.59f, 0, 0},
-                    new float[]{0.11f, 0.11f, 0.11f, 0, 0},
-                    new float[]{0, 0, 0, 1, 0},
-                    new float[]{0, 0, 0, 0, 1}
-                    });
-
                 //Getting the displayed image
                 BitmapImage img = window2.MainImage.Source as BitmapImage;
                 beforeEdit = new Bitmap(img.StreamSource);
 
-                Bitmap bmp = new Bitmap(beforeEdit);
-                ImageAttributes imgattr = new ImageAttributes();
-                System.Drawing.Rectangle rc = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-                imgattr.SetColorMatrix(colorMatrix);
-
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    g.DrawImage(bmp, rc, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, imgattr);
-                }
-
-                afterEdit = bmp;
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixGreyscale);
                 window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
             }
         }
@@ -139,32 +201,11 @@ namespace PhotoEditorNet.MVVM.Views
             reload();
             if (IsLoaded)
             {
-
-                //Assigning color matrix
-                ColorMatrix colorMatrix = new ColorMatrix(new float[][]
-                    {
-                    new float[]{0, 0, 1, 0, 0},
-                    new float[]{0, 1, 0, 0, 0},
-                    new float[]{1, 0, 0, 0, 0},
-                    new float[]{0, 0, 0, 1, 0},
-                    new float[]{0, 0, 0, 0, 1}
-                    });
-
                 //Getting the displayed image
                 BitmapImage img = window2.MainImage.Source as BitmapImage;
                 beforeEdit = new Bitmap(img.StreamSource);
 
-                Bitmap bmp = new Bitmap(beforeEdit);
-                ImageAttributes imgattr = new ImageAttributes();
-                System.Drawing.Rectangle rc = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-                imgattr.SetColorMatrix(colorMatrix);
-
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    g.DrawImage(bmp, rc, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, imgattr);
-                }
-
-                afterEdit = bmp;
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixRGBtoBGR);
                 window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
             }
         }
@@ -174,32 +215,11 @@ namespace PhotoEditorNet.MVVM.Views
             reload();
             if (IsLoaded)
             {
-
-                //Assigning color matrix
-                ColorMatrix colorMatrix = new ColorMatrix(new float[][]
-                    {
-                    new float[]{1, 0, 0, 0, 0},
-                    new float[]{0, -1, 0, 0, 0},
-                    new float[]{0, 0, -1, 0, 0},
-                    new float[]{0, 0, 0, 1, 0},
-                    new float[]{1, 1, 1, 0, 1}
-                    });
-
                 //Getting the displayed image
                 BitmapImage img = window2.MainImage.Source as BitmapImage;
                 beforeEdit = new Bitmap(img.StreamSource);
 
-                Bitmap bmp = new Bitmap(beforeEdit);
-                ImageAttributes imgattr = new ImageAttributes();
-                System.Drawing.Rectangle rc = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-                imgattr.SetColorMatrix(colorMatrix);
-
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    g.DrawImage(bmp, rc, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, imgattr);
-                }
-
-                afterEdit = bmp;
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixInvert);
                 window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
             }
         }
@@ -209,32 +229,11 @@ namespace PhotoEditorNet.MVVM.Views
             reload();
             if (IsLoaded)
             {
-
-                //Assigning color matrix
-                ColorMatrix colorMatrix = new ColorMatrix(new float[][]
-                    {
-                    new float[]{1.5f, 1.5f, 1.5f, 0, 0},
-                    new float[]{1.5f, 1.5f, 1.5f, 0, 0},
-                    new float[]{1.5f, 1.5f, 1.5f, 0, 0},
-                    new float[]{0, 0, 0, 1, 0},
-                    new float[]{-1, -1, -1, 0, 1}
-                    });
-
                 //Getting the displayed image
                 BitmapImage img = window2.MainImage.Source as BitmapImage;
                 beforeEdit = new Bitmap(img.StreamSource);
 
-                Bitmap bmp = new Bitmap(beforeEdit);
-                ImageAttributes imgattr = new ImageAttributes();
-                System.Drawing.Rectangle rc = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-                imgattr.SetColorMatrix(colorMatrix);
-
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    g.DrawImage(bmp, rc, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, imgattr);
-                }
-
-                afterEdit = bmp;
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixBlackandWhite);
                 window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
             }
         }
@@ -244,32 +243,11 @@ namespace PhotoEditorNet.MVVM.Views
             reload();
             if (IsLoaded)
             {
-
-                //Assigning color matrix
-                ColorMatrix colorMatrix = new ColorMatrix(new float[][]
-                    {
-                    new float[]{1.438f, -0.062f, -0.062f, 0, 0},
-                    new float[]{-0.122f, 1.378f, -0.122f, 0, 0},
-                    new float[]{-0.016f, -0.016f, 1.483f, 0, 0},
-                    new float[]{0, 0, 0, 1, 0},
-                    new float[]{-0.03f, 0.05f, -0.02f, 0, 1}
-                    });
-
                 //Getting the displayed image
                 BitmapImage img = window2.MainImage.Source as BitmapImage;
                 beforeEdit = new Bitmap(img.StreamSource);
 
-                Bitmap bmp = new Bitmap(beforeEdit);
-                ImageAttributes imgattr = new ImageAttributes();
-                System.Drawing.Rectangle rc = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-                imgattr.SetColorMatrix(colorMatrix);
-
-                using (var g = Graphics.FromImage(bmp))
-                {
-                    g.DrawImage(bmp, rc, 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, imgattr);
-                }
-
-                afterEdit = bmp;
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixPolaroid);
                 window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
             }
         }

@@ -10,12 +10,22 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Documents;
+using System.Windows.Media.Imaging;
+using System.Drawing.Imaging;
 
 namespace PhotoEditorNet.MVVM.ViewModel
 {
     internal class MainViewModel : ObersvableObject
     {
         MainWindow window2;
+
+        private string _fileName;
+        public string FileName
+        {
+            get { return _fileName; }
+            set { _fileName = value; onProperyChanged(nameof(FileName)); }
+        }
+
 
         private Bitmap _OriginalImage;
         public Bitmap OriginalImage
@@ -29,6 +39,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
 
         }
 
+        public Boolean isCropOn = false;
         public RelayCommand RotateViewCommand { get; set; }
         public RelayCommand CropViewCommand { get; set; }
         public RelayCommand LightViewCommand { get; set; }
@@ -63,6 +74,44 @@ namespace PhotoEditorNet.MVVM.ViewModel
             }
         }
 
+        //Function to remove crop rectangle in other views
+        public void ExitCrop()
+        {
+            window2 = Application.Current.Windows
+            .Cast<Window>()
+            .FirstOrDefault(window => window is MainWindow) as MainWindow;
+            var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.border);
+            Adorner[] toRemoveArray = myAdornerLayer.GetAdorners(window2.border);
+            Adorner toRemove;
+            if (toRemoveArray != null)
+            {
+                toRemove = toRemoveArray[0];
+                myAdornerLayer.Remove(toRemove);
+            }
+
+            window2.CroppingArea.Visibility = Visibility.Collapsed;
+        }
+
+        private static BitmapImage BitmapToSource(Bitmap src)
+        {
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            src.Save(ms, ImageFormat.Jpeg);
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            ms.Seek(0, System.IO.SeekOrigin.Begin);
+            image.StreamSource = ms;
+            image.EndInit();
+            return image;
+        }
+
+        public void SetImage()
+        {
+            window2 = Application.Current.Windows
+            .Cast<Window>()
+            .FirstOrDefault(window => window is MainWindow) as MainWindow;
+            window2.MainImage.Source = BitmapToSource(window2.EditedImage);
+        }
+
         public MainViewModel()
         {
             RotateVm = new RotateViewModel();
@@ -77,15 +126,25 @@ namespace PhotoEditorNet.MVVM.ViewModel
             RotateViewCommand = new RelayCommand(o =>
             {
                 CurrentView = RotateVm;
+                SetImage();
+                if(isCropOn)
+                {
+                    ExitCrop();
+                    isCropOn = false;
+                }
             });
 
             CropViewCommand = new RelayCommand(o =>
             {
                 CurrentView = CropVm;
+                SetImage();
+
                 window2 = Application.Current.Windows
-            .Cast<Window>()
-            .FirstOrDefault(window => window is MainWindow) as MainWindow;
+                .Cast<Window>()
+                .FirstOrDefault(window => window is MainWindow) as MainWindow;
+
                 System.Windows.Shapes.Rectangle rect;
+                window2.CroppingArea.Visibility = Visibility.Visible;
                 rect = window2.CroppingArea;
                 rect.Stroke = new SolidColorBrush(Colors.Black);
                 rect.Fill = new SolidColorBrush(Colors.Black);
@@ -93,38 +152,73 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 rect.StrokeThickness = 2;
                 rect.Width = 200;
                 rect.Height = 200;
-                
-                Canvas.SetLeft(rect, (500-window2.MainImage.ActualWidth/2));
+
+                Canvas.SetLeft(rect, (500 - window2.MainImage.ActualWidth / 2));
                 Canvas.SetTop(rect, 0);
 
                 var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.border);
                 myAdornerLayer.Add(new SimpleCircleAdorner(rect));
-                
+                isCropOn = true;
             });
 
             LightViewCommand = new RelayCommand(o =>
             {
                 CurrentView = LightVm;
+                SetImage();
+
+                if (isCropOn)
+                {
+                    ExitCrop();
+                    isCropOn = false;
+                }
             });
 
             ColorViewCommand = new RelayCommand(o =>
             {
                 CurrentView = ColorVm;
+                SetImage();
+
+                if (isCropOn)
+                {
+                    ExitCrop();
+                    isCropOn = false;
+                }
             });
 
             EffectsViewCommand = new RelayCommand(o =>
             {
                 CurrentView = EffectsVm;
+                SetImage();
+
+                if (isCropOn)
+                {
+                    ExitCrop();
+                    isCropOn = false;
+                }
             });
 
             DrawViewCommand = new RelayCommand(o =>
             {
                 CurrentView = DrawVm;
+                SetImage();
+
+                if (isCropOn)
+                {
+                    ExitCrop();
+                    isCropOn = false;
+                }
             });
 
             TextViewCommand = new RelayCommand(o =>
             {
                 CurrentView = TextVm;
+                SetImage();
+
+                if (isCropOn)
+                {
+                    ExitCrop();
+                    isCropOn = false;
+                }
             });
 
         }

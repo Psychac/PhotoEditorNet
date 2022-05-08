@@ -16,6 +16,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using Microsoft.Win32;
 using System.IO;
+using System.ComponentModel;
 
 namespace PhotoEditorNet
 {
@@ -28,6 +29,7 @@ namespace PhotoEditorNet
         public Bitmap EditedImage;
         public Bitmap tempImage;
         private Boolean isOriginalShowing = false;
+        //public string FileName { get; set; } 
         System.Windows.Point start;
         System.Windows.Point origin;
 
@@ -41,7 +43,6 @@ namespace PhotoEditorNet
         {
             System.IO.MemoryStream ms = new System.IO.MemoryStream();
             src.Save(ms, ImageFormat.Jpeg);
-
             BitmapImage image = new BitmapImage();
             image.BeginInit();
             ms.Seek(0, System.IO.SeekOrigin.Begin);
@@ -56,10 +57,11 @@ namespace PhotoEditorNet
             var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "Images|*.png;*.jpg;*.jpeg;*.gif|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif" };
             if (ofd.ShowDialog() == true)
             {
+                //FileName = ofd.FileName;
                 OriginalImage = new Bitmap(ofd.FileName);
                 EditedImage = OriginalImage;
                 MainImage.Source = BitmapToSource(new Bitmap(EditedImage));
-
+                
 
                 if (OriginalImage.Width > 1020 || OriginalImage.Height > 460)
                 {
@@ -77,16 +79,23 @@ namespace PhotoEditorNet
 
         private void MainImage_Initialized(object sender, EventArgs e)
         {
+            MainImage.Width = 64;
+            MainImage.Height = (double)64;
+            MainImage.Source = new BitmapImage(new Uri("/PhotoEditorNet;component/Images/insert-picture-icon.png", UriKind.Relative));
+            BitmapImage img = MainImage.Source as BitmapImage;
+            //OriginalImage = new Bitmap(img.UriSource);
         }
 
         private void CloseFile_Click(object sender, RoutedEventArgs e)
         {
-            if (OriginalImage != null)
-                OriginalImage.Dispose();
-
+            //if (OriginalImage != null)
+            //    OriginalImage.Dispose();
+            //OriginalImage = new Bitmap("/PhotoEditorNet;component/Images/insert-picture-icon.png");
             MainImage.Width = 64;
             MainImage.Height = (double)64;
             MainImage.Source = new BitmapImage(new Uri("/PhotoEditorNet;component/Images/insert-picture-icon.png", UriKind.Relative));
+            BitmapImage img = MainImage.Source as BitmapImage;
+            //OriginalImage = new Bitmap(img.StreamSource);
         }
         #endregion
 
@@ -235,4 +244,17 @@ namespace PhotoEditorNet
             }
         }
     }
+    //public class depProp : INotifyPropertyChanged
+    //{
+    //    private string _fileName;
+    //    public string FileName
+    //    {
+    //        get { return _fileName; }
+    //        set { _fileName = value; NotifyPropertyChanged(nameof(FileName)); }
+    //    }
+
+    //    public event PropertyChangedEventHandler PropertyChanged;
+    //    internal void NotifyPropertyChanged(string propertyName) =>
+    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    //}
 }

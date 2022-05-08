@@ -400,9 +400,7 @@
                         Height="460"
                         Width="1040"
                         x:Name="border">
-                    <Image Source="/PhotoEditorNet;component/Images/insert-picture-icon.png"
-                           Height="64"
-                           Width="64"
+                    <Image 
                            x:Name="MainImage"
                            RenderTransformOrigin="0.5,0.5"
                            Initialized="MainImage_Initialized"
@@ -417,7 +415,8 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Rectangle x:Name="CroppingArea"></Rectangle>
+                    <Rectangle x:Name="CroppingArea"
+                               Visibility="Collapsed"></Rectangle>
                 </Canvas>
             </Grid>
         </Grid>
