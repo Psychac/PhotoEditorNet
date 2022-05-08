@@ -89,5 +89,19 @@ namespace PhotoEditorNet.MVVM.Views
                 window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
             }
         }
+
+        private void Discard_Click(object sender, RoutedEventArgs e)
+        {
+            RedValue.Value = 1;
+            BlueValue.Value = 1;
+            GreenValue.Value = 1;
+            window2.MainImage.Source = BitmapToSource(new Bitmap(window2.EditedImage)); ;
+        }
+
+        private void ApplyChanges_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapImage img = window2.MainImage.Source as BitmapImage;
+            window2.EditedImage = new Bitmap(img.StreamSource);
+        }
     }
 }

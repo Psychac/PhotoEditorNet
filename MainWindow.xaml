@@ -7,43 +7,38 @@
         xmlns:viewModel="clr-namespace:PhotoEditorNet.MVVM.ViewModel"
         xmlns:view="clr-namespace:PhotoEditorNet.MVVM.Views"
         mc:Ignorable="d"
-        Height="720" Width="1280"
+        Height="720"
+        Width="1280"
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanResize"
         Background="Transparent"
         AllowsTransparency="False">
-
     <Window.DataContext>
-        <viewModel:MainViewModel/>
+        <viewModel:MainViewModel />
     </Window.DataContext>
-
     <Border Background="White"
             CornerRadius="0">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="240" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-
             <Grid.RowDefinitions>
-                <RowDefinition Height="90"/>
-                <RowDefinition/>
-                <RowDefinition Height="150"/>
+                <RowDefinition Height="90" />
+                <RowDefinition />
+                <RowDefinition Height="150" />
             </Grid.RowDefinitions>
-
             <TextBlock Text="PhotoEditor"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Left"
-                                Foreground="Black"
+                       Foreground="Black"
                        FontSize="20"
-                       Margin="20,0,0,0"/>
-
+                       Margin="20,0,0,0" />
             <!--Sidebar-->
             <StackPanel Grid.Row="1"
                         HorizontalAlignment="Left"
                         Margin="20,0,0,0">
-                <RadioButton
-                             Foreground="Black"
+                <RadioButton Foreground="Black"
                              Height="50"
                              Style="{StaticResource MenuButtonTheme}"
                              IsChecked="True"
@@ -52,20 +47,19 @@
                         <Image Source="/Images/rotate.png"
                                Height="25"
                                Width="25"
-                               Margin="10"/>
+                               Margin="10" />
                         <TextBlock Text="Rotate"
                                    FontSize='20'
-                                   Margin="10"/>
+                                   Margin="10" />
                     </WrapPanel>
                     <RadioButton.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius"
+                                    Value="5" />
                         </Style>
                     </RadioButton.Resources>
                 </RadioButton>
-
-                <RadioButton 
-                             Foreground="Black"
+                <RadioButton Foreground="Black"
                              Height="50"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding CropViewCommand}">
@@ -73,20 +67,19 @@
                         <Image Source="/Images/crop.png"
                                Height="25"
                                Width="25"
-                               Margin="10"/>
+                               Margin="10" />
                         <TextBlock Text="Crop"
                                    FontSize='20'
-                                   Margin="10"/>
+                                   Margin="10" />
                     </WrapPanel>
                     <RadioButton.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius"
+                                    Value="5" />
                         </Style>
                     </RadioButton.Resources>
                 </RadioButton>
-
-                <RadioButton 
-                             Foreground="Black"
+                <RadioButton Foreground="Black"
                              Height="50"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding LightViewCommand}">
@@ -94,19 +87,19 @@
                         <Image Source="/Images/brightness.png"
                                Height="25"
                                Width="25"
-                               Margin="10"/>
+                               Margin="10" />
                         <TextBlock Text="Light"
                                    FontSize='20'
-                                   Margin="10"/>
+                                   Margin="10" />
                     </WrapPanel>
                     <RadioButton.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius"
+                                    Value="5" />
                         </Style>
                     </RadioButton.Resources>
                 </RadioButton>
-                <RadioButton 
-                             Foreground="Black"
+                <RadioButton Foreground="Black"
                              Height="50"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding ColorViewCommand}">
@@ -114,19 +107,19 @@
                         <Image Source="/Images/palette.png"
                                Height="25"
                                Width="25"
-                               Margin="10"/>
+                               Margin="10" />
                         <TextBlock Text="Color"
                                    FontSize='20'
-                                   Margin="10"/>
+                                   Margin="10" />
                     </WrapPanel>
                     <RadioButton.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius"
+                                    Value="5" />
                         </Style>
                     </RadioButton.Resources>
                 </RadioButton>
-                <RadioButton 
-                             Foreground="Black"
+                <RadioButton Foreground="Black"
                              Height="50"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding EffectsViewCommand}">
@@ -134,19 +127,19 @@
                         <Image Source="/Images/magic-tool.png"
                                Height="25"
                                Width="25"
-                               Margin="10"/>
+                               Margin="10" />
                         <TextBlock Text="Effects"
                                    FontSize='20'
-                                   Margin="10"/>
+                                   Margin="10" />
                     </WrapPanel>
                     <RadioButton.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius"
+                                    Value="5" />
                         </Style>
                     </RadioButton.Resources>
                 </RadioButton>
-                <RadioButton
-                             Foreground="Black"
+                <RadioButton Foreground="Black"
                              Height="50"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding DrawViewCommand}">
@@ -154,19 +147,19 @@
                         <Image Source="/Images/pencil.png"
                                Height="25"
                                Width="25"
-                               Margin="10"/>
+                               Margin="10" />
                         <TextBlock Text="Draw"
                                    FontSize='20'
-                                   Margin="10"/>
+                                   Margin="10" />
                     </WrapPanel>
                     <RadioButton.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius"
+                                    Value="5" />
                         </Style>
                     </RadioButton.Resources>
                 </RadioButton>
-                <RadioButton
-                             Foreground="Black"
+                <RadioButton Foreground="Black"
                              Height="50"
                              Style="{StaticResource MenuButtonTheme}"
                              Command="{Binding TextViewCommand}">
@@ -174,27 +167,26 @@
                         <Image Source="/Images/text.png"
                                Height="25"
                                Width="25"
-                               Margin="10"/>
+                               Margin="10" />
                         <TextBlock Text="Add Text"
                                    FontSize='20'
-                                   Margin="10"/>
+                                   Margin="10" />
                     </WrapPanel>
                     <RadioButton.Resources>
                         <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="5"/>
+                            <Setter Property="CornerRadius"
+                                    Value="5" />
                         </Style>
                     </RadioButton.Resources>
                 </RadioButton>
-
             </StackPanel>
-
             <!--Top Controls-->
             <Grid Grid.Column="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-
+                <!--File open,close,zooming and panning-->
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center">
@@ -206,12 +198,11 @@
                             x:Name="OpenFile"
                             Click="OpenFile_Click"
                             Width="50"
-                    Height="50"
-                            >
+                            Height="50"
+                            ToolTip="Open file">
                         <Image Source="/Images/folder.png"
                                Height="25"
-                               Width="25"
-                               />
+                               Width="25" />
                     </Button>
                     <Button VerticalAlignment="Center"
                             HorizontalAlignment="Right"
@@ -221,69 +212,67 @@
                             x:Name="CloseFile"
                             Click="CloseFile_Click"
                             Width="50"
-                    Height="50">
+                            Height="50"
+                            ToolTip="Close file">
                         <Image Source="/Images/folder(1).png"
-                               
                                Height="25"
-                               Width="25"
-                               />
+                               Width="25" />
                     </Button>
                     <Button Margin="50,0,5,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
                             x:Name="zoomIn"
-                            Click="zoomIn_Click">
+                            Click="zoomIn_Click"
+                            ToolTip="Zoom in">
                         <StackPanel>
                             <Image Source="/Images/zoom-in.png"
-                       Height="25"
-                       Width="25"/>
-
+                                   Height="25"
+                                   Width="25" />
                         </StackPanel>
-
                     </Button>
                     <Button Margin="5,0,5,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
                             x:Name="zoomOut"
-                            Click="zoomOut_Click">
+                            Click="zoomOut_Click"
+                            ToolTip="Zoom out">
                         <StackPanel>
                             <Image Source="/Images/zoom-out.png"
-                       Height="25"
-                       Width="25"/>
-
+                                   Height="25"
+                                   Width="25" />
                         </StackPanel>
                     </Button>
                     <Button Margin="5,0,5,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
                             x:Name="backToOriginal"
-                            Click="backToOriginal_Click">
+                            Click="backToOriginal_Click"
+                            ToolTip="Reset zoom and panning">
                         <StackPanel>
                             <Image Source="/Images/back-to-original.png"
-                       Height="25"
-                       Width="25"/>
-
+                                   Height="25"
+                                   Width="25" />
                         </StackPanel>
                     </Button>
                     <CheckBox Margin="0,0,5,0"
-                          Background="Transparent"
-                          BorderThickness="0"
-                          Width="50"
-                          Height="50"
-                          VerticalContentAlignment="Center"
-                          HorizontalContentAlignment="Center"
-                          IsChecked="True"
+                              Background="Transparent"
+                              BorderThickness="0"
+                              Width="50"
+                              Height="50"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                              IsChecked="True"
                               x:Name="AllowPan"
-                          >
+                              ToolTip="Allow Panning">
                         <Image Source="/Images/four-grouped-arrows-button-to-move.png"
-                       Height="25"
-                       Width="25"/>
+                               Height="25"
+                               Width="25" />
                     </CheckBox>
                 </StackPanel>
                 <!--Top Right controls-->
@@ -292,69 +281,75 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center">
                     <Button Margin="5,0,5,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50">
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
+                            ToolTip="Undo">
                         <Image Source="/Images/undo.png"
                                Height="25"
-                               Width="25"
-                               />
+                               Width="25" />
                     </Button>
                     <Button Margin="5,0,5,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50">
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
+                            ToolTip="Redo">
                         <Image Source="/Images/redo.png"
                                Height="25"
-                               Width="25"
-                               />
+                               Width="25" />
                     </Button>
                     <Button Margin="5,0,5,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50">
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
+                            x:Name="CompareToOriginal"
+                            Click="CompareToOriginal_Click"
+                            ToolTip="Compare to original">
                         <Image Source="/Images/compare.png"
                                Height="25"
-                               Width="25"
-                               />
+                               Width="25" />
                     </Button>
                     <Button Margin="5,0,5,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50">
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
+                            x:Name="DiscardChanges"
+                            Click="DiscardChanges_Click"
+                            ToolTip="Discard changes">
                         <Image Source="/Images/trash.png"
                                Height="25"
-                               Width="25"
-                               />
+                               Width="25" />
                     </Button>
                     <Button Margin="5,0,5,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50">
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
+                            x:Name="SaveChanges"
+                            Click="SaveChanges_Click"
+                            ToolTip="Save changes">
                         <Image Source="/Images/diskette.png"
                                Height="25"
-                               Width="25"
-                               />
+                               Width="25" />
                     </Button>
                     <Button Margin="5,0,50,0"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Width="50"
-                    Height="50">
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Width="50"
+                            Height="50"
+                            x:Name="Export"
+                            Click="Export_Click"
+                            ToolTip="Export file">
                         <Image Source="/Images/export.png"
                                Height="25"
-                               Width="25"
-                               />
+                               Width="25" />
                     </Button>
                 </StackPanel>
-
             </Grid>
-
             <!--Image and layers
             <Grid Grid.Row="1"
                   Grid.Column="1">
@@ -387,49 +382,42 @@
                 
             </Grid>
             -->
-
             <!--Bottom Controls-->
             <ContentControl Grid.Column="1"
                             Grid.Row="2"
                             Margin="10"
-                            Content="{Binding CurrentView}">
-
-            </ContentControl>
-
+                            Content="{Binding CurrentView}"></ContentControl>
             <WrapPanel Grid.Row="0"
                        Grid.Column="1"
                        Panel.ZIndex="0"
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Center"
-                       Margin="20">
-
-
-            </WrapPanel>
+                       Margin="20"></WrapPanel>
             <Grid Grid.Column="1"
                   Grid.Row="1">
-                <Canvas 
-                    Margin="0"
-                    ClipToBounds="True"
-                    Height="460"
-                    Width="1040"
-                    x:Name="border">
+                <Canvas Margin="0"
+                        ClipToBounds="True"
+                        Height="460"
+                        Width="1040"
+                        x:Name="border">
                     <Image Source="/PhotoEditorNet;component/Images/insert-picture-icon.png"
-                       Height="64"
-                       Width="64"
-                       x:Name="MainImage"
-                       RenderTransformOrigin="0.5,0.5"
-                       Initialized="MainImage_Initialized"
-                       MouseWheel="MainImage_MouseWheel"
-                       MouseLeftButtonDown="MainImage_MouseLeftButtonDown"
-                       MouseMove="MainImage_MouseMove"
-                       MouseLeftButtonUp="MainImage_MouseLeftButtonUp">
+                           Height="64"
+                           Width="64"
+                           x:Name="MainImage"
+                           RenderTransformOrigin="0.5,0.5"
+                           Initialized="MainImage_Initialized"
+                           MouseWheel="MainImage_MouseWheel"
+                           MouseLeftButtonDown="MainImage_MouseLeftButtonDown"
+                           MouseMove="MainImage_MouseMove"
+                           MouseLeftButtonUp="MainImage_MouseLeftButtonUp">
                         <Image.RenderTransform>
                             <TransformGroup>
-                                <ScaleTransform x:Name="STform"/>
-                                <TranslateTransform x:Name="TTform"/>
+                                <ScaleTransform x:Name="STform" />
+                                <TranslateTransform x:Name="TTform" />
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
+                    <Rectangle x:Name="CroppingArea"></Rectangle>
                 </Canvas>
             </Grid>
         </Grid>

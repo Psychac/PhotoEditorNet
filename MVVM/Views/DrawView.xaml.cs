@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,41 @@ namespace PhotoEditorNet.MVVM.Views
     /// </summary>
     public partial class DrawView : UserControl
     {
+        private Bitmap beforeEdit;
+        private Bitmap afterEdit;
+        MainWindow window2;
+
         public DrawView()
         {
             InitializeComponent();
+            window2 = Application.Current.Windows
+            .Cast<Window>()
+            .FirstOrDefault(window => window is MainWindow) as MainWindow;
+        }
+
+        private static BitmapImage BitmapToSource(Bitmap src)
+        {
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            src.Save(ms, ImageFormat.Jpeg);
+
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            ms.Seek(0, System.IO.SeekOrigin.Begin);
+            image.StreamSource = ms;
+            image.EndInit();
+            return image;
+        }
+
+        void reload()
+        {
+            if (IsLoaded)
+                window2.MainImage.Source = BitmapToSource(new Bitmap(window2.EditedImage));
+        }
+
+        private void ApplyChanges_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapImage img = window2.MainImage.Source as BitmapImage;
+            window2.EditedImage = new Bitmap(img.StreamSource);
         }
     }
 }

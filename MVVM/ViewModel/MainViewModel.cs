@@ -1,15 +1,21 @@
 ﻿using PhotoEditorNet.Core;
+using PhotoEditorNet;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Documents;
 
 namespace PhotoEditorNet.MVVM.ViewModel
 {
     internal class MainViewModel : ObersvableObject
     {
+        MainWindow window2;
 
         private Bitmap _OriginalImage;
         public Bitmap OriginalImage
@@ -76,6 +82,24 @@ namespace PhotoEditorNet.MVVM.ViewModel
             CropViewCommand = new RelayCommand(o =>
             {
                 CurrentView = CropVm;
+                window2 = Application.Current.Windows
+            .Cast<Window>()
+            .FirstOrDefault(window => window is MainWindow) as MainWindow;
+                System.Windows.Shapes.Rectangle rect;
+                rect = window2.CroppingArea;
+                rect.Stroke = new SolidColorBrush(Colors.Black);
+                rect.Fill = new SolidColorBrush(Colors.Black);
+                rect.Opacity = 0.2;
+                rect.StrokeThickness = 2;
+                rect.Width = 200;
+                rect.Height = 200;
+                
+                Canvas.SetLeft(rect, (500-window2.MainImage.ActualWidth/2));
+                Canvas.SetTop(rect, 0);
+
+                var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.border);
+                myAdornerLayer.Add(new SimpleCircleAdorner(rect));
+                
             });
 
             LightViewCommand = new RelayCommand(o =>

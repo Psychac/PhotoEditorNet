@@ -125,10 +125,27 @@ namespace PhotoEditorNet.MVVM.Views
 
                 afterEdit = bmp;
                 window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
-
-
             }
-            
+        }
+        
+        public void SlidersReset()
+        {
+            BrightnessSlider.Value = 0;
+            ContrastSlider.Value = 1;
+            SaturationSlider.Value = 1;
+            GammaSlider.Value = 1;
+        }
+        
+        private void Discard_Click(object sender, RoutedEventArgs e)
+        {
+            SlidersReset();
+            window2.MainImage.Source = BitmapToSource(new Bitmap(window2.EditedImage)); ;
+        }
+
+        private void ApplyChanges_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapImage img = window2.MainImage.Source as BitmapImage;
+            window2.EditedImage = new Bitmap(img.StreamSource);
         }
     }
 }

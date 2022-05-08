@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Microsoft.Win32;
+using System.IO;
 
 namespace PhotoEditorNet
 {
@@ -24,14 +26,14 @@ namespace PhotoEditorNet
     {
         public Bitmap OriginalImage;
         public Bitmap EditedImage;
+        public Bitmap tempImage;
+        private Boolean isOriginalShowing = false;
         System.Windows.Point start;
         System.Windows.Point origin;
 
         public MainWindow()
         {
-
             InitializeComponent();
-
         }
 
         #region Open and Close image
@@ -75,20 +77,16 @@ namespace PhotoEditorNet
 
         private void MainImage_Initialized(object sender, EventArgs e)
         {
-            //BitmapImage img = new BitmapImage(new Uri(("pack://application:,,,/PhotoEditorNet;component/insert-picture-icon.png"), UriKind.Absolute)) as BitmapImage;
-            
-            //MainImage.Source = BitmapToSource(new Bitmap(img.StreamSource));
         }
 
         private void CloseFile_Click(object sender, RoutedEventArgs e)
         {
             if (OriginalImage != null)
                 OriginalImage.Dispose();
-            //OriginalImage = new Bitmap("/Images/insert-picture-icon.png");
+
             MainImage.Width = 64;
             MainImage.Height = (double)64;
             MainImage.Source = new BitmapImage(new Uri("/PhotoEditorNet;component/Images/insert-picture-icon.png", UriKind.Relative));
-
         }
         #endregion
 
@@ -100,7 +98,6 @@ namespace PhotoEditorNet
             double zoom = e.Delta > 0 ? .2 : -.2;
             st.ScaleX += zoom;
             st.ScaleY += zoom;
-
         }
 
         //Panning image when pan button is checked code
@@ -116,7 +113,7 @@ namespace PhotoEditorNet
 
         private void MainImage_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((bool)AllowPan.IsChecked && MainImage.IsMouseCaptured )
+            if ((bool)AllowPan.IsChecked && MainImage.IsMouseCaptured)
             {
                 var tt = (TranslateTransform)((TransformGroup)MainImage.RenderTransform)
                     .Children.First(tr => tr is TranslateTransform);
@@ -164,8 +161,78 @@ namespace PhotoEditorNet
             }
         }
 
+
         #endregion
 
-        
+        private void DiscardChanges_Click(object sender, RoutedEventArgs e)
+        {
+            MainImage.Source = BitmapToSource(new Bitmap(OriginalImage));
+        }
+
+        private void SaveChanges_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapImage img = MainImage.Source as BitmapImage;
+            OriginalImage = new Bitmap(img.StreamSource);
+        }
+
+        private void CompareToOriginal_Click(object sender, RoutedEventArgs e)
+        {
+            if (isOriginalShowing == false)
+            {
+                BitmapImage img = MainImage.Source as BitmapImage;
+                tempImage = new Bitmap(img.StreamSource);
+                MainImage.Source = BitmapToSource(new Bitmap(OriginalImage));
+            }
+            else
+            {
+                MainImage.Source = BitmapToSource((Bitmap)tempImage);
+            }
+            isOriginalShowing = !isOriginalShowing;
+        }
+
+        private void Export_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog save = new SaveFileDialog();
+            save.Title = "Save image as ";
+            save.Filter = "Jpeg Image | *.jpg |PNG Image | *.png | Bitmap Image | *.bmp ";
+            if (OriginalImage != null)
+            {
+                if (save.ShowDialog() == true)
+                {
+                    switch (save.FilterIndex)
+                    {
+                        case 1:
+                            {
+                                ImageCodecInfo jgpEncoder = ImageCodecInfo.GetImageDecoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
+                                System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                                var myEncoderParameters = new EncoderParameters(1);
+                                var myEncoderParameter = new EncoderParameter(myEncoder, 100L);
+                                myEncoderParameters.Param[0] = myEncoderParameter;
+                                using (Stream stm = File.Create(save.FileName))
+                                {
+                                    OriginalImage.Save(stm, jgpEncoder, myEncoderParameters);
+                                }
+                                break;
+                            }
+                        case 2:
+                            {
+                                using (Stream stm = File.Create(save.FileName))
+                                {
+                                    OriginalImage.Save(stm, ImageFormat.Png);
+                                }
+                                break;
+                            }
+                        case 3:
+                            {
+                                using (Stream stm = File.Create(save.FileName))
+                                {
+                                    OriginalImage.Save(stm, ImageFormat.Bmp);
+                                }
+                                break;
+                            }
+                    }
+                }
+            }
+        }
     }
 }

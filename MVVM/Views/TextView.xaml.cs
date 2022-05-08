@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +22,13 @@ namespace PhotoEditorNet.MVVM.Views
     /// </summary>
     public partial class TextView : UserControl
     {
+        private Bitmap beforeEdit;
+        private Bitmap afterEdit;
+        MainWindow window2;
 
-        public ICollection<FontFamily> FontCollection = Fonts.SystemFontFamilies;
+        public ICollection<System.Windows.Media.FontFamily> FontCollection = Fonts.SystemFontFamilies;
 
-        public FontFamily selectedFontFamily = new FontFamily("Arial");
+        public System.Windows.Media.FontFamily selectedFontFamily = new System.Windows.Media.FontFamily("Arial");
         private static readonly double[] CommonlyUsedFontSizes =
         {
             3.0, 4.0, 5.0, 6.0, 6.5,
@@ -39,6 +44,28 @@ namespace PhotoEditorNet.MVVM.Views
         public TextView()
         {
             InitializeComponent();
+            window2 = Application.Current.Windows
+            .Cast<Window>()
+            .FirstOrDefault(window => window is MainWindow) as MainWindow;
+        }
+
+        private static BitmapImage BitmapToSource(Bitmap src)
+        {
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            src.Save(ms, ImageFormat.Jpeg);
+
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            ms.Seek(0, System.IO.SeekOrigin.Begin);
+            image.StreamSource = ms;
+            image.EndInit();
+            return image;
+        }
+
+        void reload()
+        {
+            if (IsLoaded)
+                window2.MainImage.Source = BitmapToSource(new Bitmap(window2.EditedImage));
         }
 
         private void FontChooser_Initialized(object sender, EventArgs e)
@@ -50,10 +77,10 @@ namespace PhotoEditorNet.MVVM.Views
         {
             // Enumerate the current set of system fonts,
             // and fill the combo box with the names of the fonts.
-            ICollection<FontFamily> fontFamilies = Fonts.SystemFontFamilies;
+            ICollection<System.Windows.Media.FontFamily> fontFamilies = Fonts.SystemFontFamilies;
             string[] fFamilies = new string[Fonts.SystemFontFamilies.Count];
             int i = 0;
-            foreach (FontFamily family in fontFamilies)
+            foreach (System.Windows.Media.FontFamily family in fontFamilies)
             {
                 fFamilies[i++] = family.Source;
             }
@@ -127,8 +154,14 @@ namespace PhotoEditorNet.MVVM.Views
         private void FontChooser_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //TypeFaceChooser.Items.Clear();
-            selectedFontFamily = FontChooser.SelectedItem as FontFamily;
+            selectedFontFamily = (System.Windows.Media.FontFamily)FontChooser.SelectedItem;
             //TypeFaceChooserFunc(TypeFaceChooser);
+        }
+
+        private void ApplyChanges_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapImage img = window2.MainImage.Source as BitmapImage;
+            window2.EditedImage = new Bitmap(img.StreamSource);
         }
 
         //}
