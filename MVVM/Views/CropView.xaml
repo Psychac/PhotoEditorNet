@@ -104,6 +104,7 @@
                     <TextBlock Text="Crop"></TextBlock>
                 </WrapPanel>
             </Button>
+            <TextBlock x:Name="DPI"></TextBlock>
             <Button Height="50"
                     Width="100"
                     Margin="5,10,5,10"

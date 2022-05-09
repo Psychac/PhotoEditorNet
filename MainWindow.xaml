@@ -285,7 +285,9 @@
                             BorderThickness="0"
                             Width="50"
                             Height="50"
-                            ToolTip="Undo">
+                            ToolTip="Undo"
+                            x:Name="UndoChanges"
+                            Click="UndoChanges_Click">
                         <Image Source="/Images/undo.png"
                                Height="25"
                                Width="25" />
@@ -295,7 +297,9 @@
                             BorderThickness="0"
                             Width="50"
                             Height="50"
-                            ToolTip="Redo">
+                            ToolTip="Redo"
+                            x:Name="RedoChanges"
+                            Click="RedoChanges_Click">
                         <Image Source="/Images/redo.png"
                                Height="25"
                                Width="25" />

@@ -151,8 +151,11 @@ namespace PhotoEditorNet.MVVM.Views
 
         private void ApplyChanges_Click(object sender, RoutedEventArgs e)
         {
+            RotationSlider.Value = 0;
             BitmapImage img = window2.MainImage.Source as BitmapImage;
             window2.EditedImage = new Bitmap(img.StreamSource);
+            window2.undoStack.Push(window2.EditedImage);
+            window2.redoStack.Clear();
         }
     }
 }

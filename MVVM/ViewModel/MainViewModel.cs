@@ -80,8 +80,8 @@ namespace PhotoEditorNet.MVVM.ViewModel
             window2 = Application.Current.Windows
             .Cast<Window>()
             .FirstOrDefault(window => window is MainWindow) as MainWindow;
-            var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.border);
-            Adorner[] toRemoveArray = myAdornerLayer.GetAdorners(window2.border);
+            var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.CroppingArea);
+            Adorner[] toRemoveArray = myAdornerLayer.GetAdorners(window2.CroppingArea);
             Adorner toRemove;
             if (toRemoveArray != null)
             {
@@ -156,7 +156,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 Canvas.SetLeft(rect, (500 - window2.MainImage.ActualWidth / 2));
                 Canvas.SetTop(rect, 0);
 
-                var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.border);
+                var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.CroppingArea);
                 myAdornerLayer.Add(new SimpleCircleAdorner(rect));
                 isCropOn = true;
             });

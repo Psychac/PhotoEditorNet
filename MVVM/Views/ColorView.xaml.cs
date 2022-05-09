@@ -102,6 +102,11 @@ namespace PhotoEditorNet.MVVM.Views
         {
             BitmapImage img = window2.MainImage.Source as BitmapImage;
             window2.EditedImage = new Bitmap(img.StreamSource);
+            RedValue.Value = 1;
+            BlueValue.Value = 1;
+            GreenValue.Value = 1;
+            window2.undoStack.Push(window2.EditedImage);
+            window2.redoStack.Clear();
         }
     }
 }

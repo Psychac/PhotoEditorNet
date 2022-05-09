@@ -25,11 +25,16 @@ namespace PhotoEditorNet
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Stack<Bitmap> undoStack = new Stack<Bitmap>();
+        public Stack<Bitmap> redoStack = new Stack<Bitmap>();
+
         public Bitmap OriginalImage;
         public Bitmap EditedImage;
         public Bitmap tempImage;
+
         private Boolean isOriginalShowing = false;
         //public string FileName { get; set; } 
+
         System.Windows.Point start;
         System.Windows.Point origin;
 
@@ -37,6 +42,7 @@ namespace PhotoEditorNet
         {
             InitializeComponent();
         }
+
 
         #region Open and Close image
         private static BitmapImage BitmapToSource(Bitmap src)
@@ -60,8 +66,9 @@ namespace PhotoEditorNet
                 //FileName = ofd.FileName;
                 OriginalImage = new Bitmap(ofd.FileName);
                 EditedImage = OriginalImage;
+                undoStack.Push(EditedImage);
                 MainImage.Source = BitmapToSource(new Bitmap(EditedImage));
-                
+
 
                 if (OriginalImage.Width > 1020 || OriginalImage.Height > 460)
                 {
@@ -241,6 +248,30 @@ namespace PhotoEditorNet
                             }
                     }
                 }
+            }
+        }
+
+        private void UndoChanges_Click(object sender, RoutedEventArgs e)
+        {
+            if (undoStack.Count > 0)
+            {
+                Bitmap temp = undoStack.Pop();
+                redoStack.Push(temp);
+                if (undoStack.Count > 0)
+                    MainImage.Source = BitmapToSource(undoStack.Peek());
+                else
+                    MainImage.Source = BitmapToSource(OriginalImage);
+            }
+
+        }
+
+        private void RedoChanges_Click(object sender, RoutedEventArgs e)
+        {
+            if (redoStack.Count > 0)
+            {
+                Bitmap temp = redoStack.Pop();
+                undoStack.Push(temp);
+                MainImage.Source = BitmapToSource(temp);
             }
         }
     }
