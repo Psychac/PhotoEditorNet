@@ -404,8 +404,9 @@
                         Height="460"
                         Width="1040"
                         x:Name="border">
-                    <Image 
-                           x:Name="MainImage"
+                    <Grid x:Name="ImageGrid">
+                    <Image x:Name="MainImage"
+                           Canvas.Left="0"
                            RenderTransformOrigin="0.5,0.5"
                            Initialized="MainImage_Initialized"
                            MouseWheel="MainImage_MouseWheel"
@@ -419,6 +420,16 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
+                    <Canvas  x:Name="BackPanel"
+                             Height="{Binding ElementName=MainImage, Path=ActualHeight}"
+                             Width="{Binding ElementName=MainImage, Path=ActualWidth}"
+                             >
+                        <Rectangle x:Name="selectionRectangle"
+                                   Stroke="LightBlue"
+                                   Fill="#220000FF"
+                                   Visibility="Collapsed" />
+                    </Canvas>
+                    </Grid>
                     <Rectangle x:Name="CroppingArea"
                                Visibility="Collapsed"></Rectangle>
                 </Canvas>

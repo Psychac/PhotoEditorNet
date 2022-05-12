@@ -74,34 +74,94 @@ namespace PhotoEditorNet.MVVM.Views
             return bImg;
         }
 
+        private BitmapImage GetImage(BitmapSource source, BitmapEncoder encoder)
+        {
+            var bmpImage = new BitmapImage();
+
+            using (var srcMS = new MemoryStream())
+            {
+                encoder.Frames.Add(BitmapFrame.Create(source));
+                encoder.Save(srcMS);
+
+                srcMS.Position = 0;
+                using (var destMS = new MemoryStream(srcMS.ToArray()))
+                {
+                    bmpImage.BeginInit();
+                    bmpImage.StreamSource = destMS;
+                    bmpImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bmpImage.EndInit();
+                    bmpImage.Freeze();
+                }
+            }
+
+            return bmpImage;
+        }
+
         private void Crop_Click(object sender, RoutedEventArgs e)
         {
             if(IsLoaded)
             {
+                var rect1 = new Rect()
+                {
+                    X = Canvas.GetLeft(window2.selectionRectangle),
+                    Y = Canvas.GetTop(window2.selectionRectangle),
+                    Width = window2.selectionRectangle.Width,
+                    Height = window2.selectionRectangle.Height
+                };
+
+                // calc scale in PIXEls for CroppedBitmap...
                 var img = window2.MainImage.Source as BitmapImage;
-                var xdpi = img.DpiX;
-                DPI.Text = "xdpi = " + xdpi.ToString();
-                var renderedHeight = window2.MainImage.Height;
-                var renderedWidth = window2.MainImage.Width;
-                var imageHeight = img.PixelHeight;
-                var imageWidth = img.PixelWidth;
-                var widthRatio = (int)Math.Round(imageWidth / renderedWidth);
-                var heightRatio = (int)Math.Round(imageHeight / renderedHeight);
                 beforeEdit = new Bitmap(img.StreamSource);
                 BitmapSource image = BitmapToSource((Bitmap)beforeEdit);
-                //double imageLeft, imageTop, imageRight, imageBottom;
-                //imageLeft = 500 - window2.MainImage.ActualWidth / 2;
-                //imageTop = 210 - window2.MainImage.ActualHeight / 2;
-                //imageBottom = (imageTop + window2.MainImage.ActualHeight);
-                //imageRight = (imageLeft + window2.MainImage.ActualWidth);
-                Int32Rect rect = new Int32Rect(
-                    (int)Canvas.GetLeft(window2.CroppingArea),
-                    (int)Canvas.GetTop(window2.CroppingArea),
-                    (int)window2.CroppingArea.ActualWidth * widthRatio,
-                    (int)window2.CroppingArea.ActualHeight * heightRatio);
-                CroppedBitmap croppedImage = new CroppedBitmap(image, rect);
-                //window2.MainImage.Source = CroppedToSource(croppedImage); ;
-                window2.MainImage.Source = croppedImage;
+                var scaleWidth = (img.PixelWidth) / (window2.MainImage.ActualWidth);
+                var scaleHeight = (img.PixelHeight) / (window2.MainImage.ActualHeight);
+
+                var rcFrom = new Int32Rect()
+                {
+                    X = (int)(rect1.X * scaleWidth),
+                    Y = (int)(rect1.Y * scaleHeight),
+                    Width = (int)(rect1.Width * scaleWidth),
+                    Height = (int)(rect1.Height * scaleHeight)
+                };
+
+                var cropped = new CroppedBitmap(image, rcFrom);
+
+                // UPDATE HERE: CroppedBitmap to BitmapImage
+                BitmapImage croppedImage;
+                croppedImage = GetImage(cropped.Source,new JpegBitmapEncoder());
+                // or 
+                // croppedImage = GetPngImage(cropped.Source);
+
+                // using BitmapImage version to prove its created successfully
+                window2.MainImage.Source = cropped; //cropped;
+                window2.selectionRectangle.Visibility = Visibility.Collapsed;
+                window2.isDragging = false;
+
+                //var img = window2.MainImage.Source as BitmapImage;
+                //var xdpi = img.DpiX;
+                //DPI.Text = "xdpi = " + xdpi.ToString();
+                //var renderedHeight = window2.MainImage.Height;
+                //var renderedWidth = window2.MainImage.Width;
+                //var imageHeight = img.PixelHeight;
+                //var imageWidth = img.PixelWidth;
+                //var widthRatio = (int)Math.Round(imageWidth / renderedWidth);
+                //var heightRatio = (int)Math.Round(imageHeight / renderedHeight);
+                //beforeEdit = new Bitmap(img.StreamSource);
+                //BitmapSource image = BitmapToSource((Bitmap)beforeEdit);
+                ////double imageLeft, imageTop, imageRight, imageBottom;
+                ////imageLeft = 500 - window2.MainImage.ActualWidth / 2;
+                ////imageTop = 210 - window2.MainImage.ActualHeight / 2;
+                ////imageBottom = (imageTop + window2.MainImage.ActualHeight);
+                ////imageRight = (imageLeft + window2.MainImage.ActualWidth);
+                //Int32Rect rect = new Int32Rect(
+                //    (int)Canvas.GetLeft(window2.CroppingArea) * widthRatio,
+                //    (int)Canvas.GetTop(window2.CroppingArea) * heightRatio,
+                //    (int)window2.CroppingArea.ActualWidth * widthRatio,
+                //    (int)window2.CroppingArea.ActualHeight * heightRatio);
+                //CroppedBitmap croppedImage = new CroppedBitmap(image, rect);
+                ////window2.MainImage.Source = CroppedToSource(croppedImage); ;
+
+                //window2.MainImage.Source = croppedImage;
             }
             
         }

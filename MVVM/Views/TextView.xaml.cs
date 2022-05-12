@@ -27,6 +27,7 @@ namespace PhotoEditorNet.MVVM.Views
         MainWindow window2;
 
         public ICollection<System.Windows.Media.FontFamily> FontCollection = Fonts.SystemFontFamilies;
+        public ICollection<System.Windows.Media.FontFamily> fontFamilies = Fonts.SystemFontFamilies;
 
         public System.Windows.Media.FontFamily selectedFontFamily = new System.Windows.Media.FontFamily("Arial");
         private static readonly double[] CommonlyUsedFontSizes =
@@ -77,7 +78,7 @@ namespace PhotoEditorNet.MVVM.Views
         {
             // Enumerate the current set of system fonts,
             // and fill the combo box with the names of the fonts.
-            ICollection<System.Windows.Media.FontFamily> fontFamilies = Fonts.SystemFontFamilies;
+            
             string[] fFamilies = new string[Fonts.SystemFontFamilies.Count];
             int i = 0;
             foreach (System.Windows.Media.FontFamily family in fontFamilies)
@@ -154,7 +155,11 @@ namespace PhotoEditorNet.MVVM.Views
         private void FontChooser_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //TypeFaceChooser.Items.Clear();
-            selectedFontFamily = (System.Windows.Media.FontFamily)FontChooser.SelectedItem;
+            var sf = FontChooser.SelectedItem;
+            selectedFontFamily = (from x in fontFamilies
+                                  where x.Source == (string)sf
+                                  select x).FirstOrDefault(); ;
+            //selectedFontFamily = (System.Windows.Media.FontFamily)FontChooser.SelectedItem;
             //TypeFaceChooserFunc(TypeFaceChooser);
         }
 
@@ -164,6 +169,16 @@ namespace PhotoEditorNet.MVVM.Views
             window2.EditedImage = new Bitmap(img.StreamSource);
             window2.undoStack.Push(window2.EditedImage);
             window2.redoStack.Clear();
+        }
+
+        private void FontColorChooser_Initialized(object sender, EventArgs e)
+        {
+            FontColorChooser.ItemsSource = typeof(Colors).GetProperties();
+            FontColorChooser.SelectedIndex = 7;
+            //Code for selecting color
+            //System.Windows.Media.Color x = (System.Windows.Media.Color)(FontColorChooser.SelectedItem as System.Reflection.PropertyInfo).GetValue(null, null);
+            //SolidColorBrush sd = new SolidColorBrush(x);
+            //this.Background = new SolidColorBrush(x);
         }
 
         //}

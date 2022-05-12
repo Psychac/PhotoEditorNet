@@ -32,6 +32,9 @@ namespace PhotoEditorNet
         public Bitmap EditedImage;
         public Bitmap tempImage;
 
+        public bool isDragging;
+        private System.Windows.Point anchorPoint = new System.Windows.Point();
+
         private Boolean isOriginalShowing = false;
         //public string FileName { get; set; } 
 
@@ -63,17 +66,15 @@ namespace PhotoEditorNet
             var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "Images|*.png;*.jpg;*.jpeg;*.gif|JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif" };
             if (ofd.ShowDialog() == true)
             {
-                //FileName = ofd.FileName;
                 OriginalImage = new Bitmap(ofd.FileName);
                 EditedImage = OriginalImage;
                 undoStack.Push(EditedImage);
                 MainImage.Source = BitmapToSource(new Bitmap(EditedImage));
 
-
-                if (OriginalImage.Width > 1020 || OriginalImage.Height > 460)
+                if (OriginalImage.Width > 1040 || OriginalImage.Height > 480)
                 {
-                    MainImage.Width = 1000;
-                    MainImage.Height = 420;
+                    MainImage.Width = 1020;
+                    MainImage.Height = 460;
                     MainImage.Stretch = Stretch.Uniform;
                 }
                 else
@@ -81,6 +82,8 @@ namespace PhotoEditorNet
                     MainImage.Width = OriginalImage.Height;
                     MainImage.Height = OriginalImage.Width;
                 }
+                Canvas.SetLeft(ImageGrid, (510 - MainImage.Width / 2));
+                Canvas.SetTop(ImageGrid, (230 - MainImage.Height / 2));
             }
         }
 
@@ -88,21 +91,25 @@ namespace PhotoEditorNet
         {
             MainImage.Width = 64;
             MainImage.Height = (double)64;
+            Canvas.SetLeft(ImageGrid, (510 - MainImage.Width / 2));
+            Canvas.SetTop(ImageGrid, (230 - MainImage.Height / 2));
+            //Canvas.SetLeft(BackPanel, (510 - MainImage.Width / 2));
+            //Canvas.SetTop(BackPanel, (230 - MainImage.Height / 2));
             MainImage.Source = new BitmapImage(new Uri("/PhotoEditorNet;component/Images/insert-picture-icon.png", UriKind.Relative));
             BitmapImage img = MainImage.Source as BitmapImage;
-            //OriginalImage = new Bitmap(img.UriSource);
+            var tt = (TranslateTransform)((TransformGroup)MainImage.RenderTransform)
+                    .Children.First(tr => tr is TranslateTransform);
+            origin = new System.Windows.Point(tt.X, tt.Y);
         }
 
         private void CloseFile_Click(object sender, RoutedEventArgs e)
         {
-            //if (OriginalImage != null)
-            //    OriginalImage.Dispose();
-            //OriginalImage = new Bitmap("/PhotoEditorNet;component/Images/insert-picture-icon.png");
             MainImage.Width = 64;
             MainImage.Height = (double)64;
+            Canvas.SetLeft(ImageGrid, (510 - MainImage.Width / 2));
+            Canvas.SetTop(ImageGrid, (230 - MainImage.Height / 2));
             MainImage.Source = new BitmapImage(new Uri("/PhotoEditorNet;component/Images/insert-picture-icon.png", UriKind.Relative));
             BitmapImage img = MainImage.Source as BitmapImage;
-            //OriginalImage = new Bitmap(img.StreamSource);
         }
         #endregion
 
@@ -120,11 +127,22 @@ namespace PhotoEditorNet
         private void MainImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MainImage.CaptureMouse();
-            MainImage.Focus();
-            var tt = (TranslateTransform)((TransformGroup)MainImage.RenderTransform)
-                .Children.First(tr => tr is TranslateTransform);
-            start = e.GetPosition(border);
-            origin = new System.Windows.Point(tt.X, tt.Y);
+            if ((bool)AllowPan.IsChecked)
+            {
+                MainImage.Focus();
+                var tt = (TranslateTransform)((TransformGroup)MainImage.RenderTransform)
+                    .Children.First(tr => tr is TranslateTransform);
+                start = e.GetPosition(border);
+            }
+            else
+            {
+                if (!isDragging)
+                {
+                    anchorPoint.X = e.GetPosition(BackPanel).X;
+                    anchorPoint.Y = e.GetPosition(BackPanel).Y;
+                    isDragging = true;
+                }
+            }
         }
 
         private void MainImage_MouseMove(object sender, MouseEventArgs e)
@@ -137,15 +155,41 @@ namespace PhotoEditorNet
                 tt.X = origin.X - v.X;
                 tt.Y = origin.Y - v.Y;
             }
+            else
+            {
+                if (isDragging)
+                {
+                    double x = e.GetPosition(BackPanel).X;
+                    double y = e.GetPosition(BackPanel).Y;
+                    selectionRectangle.SetValue(Canvas.LeftProperty, Math.Min(x, anchorPoint.X));
+                    selectionRectangle.SetValue(Canvas.TopProperty, Math.Min(y, anchorPoint.Y));
+                    selectionRectangle.Width = Math.Abs(x - anchorPoint.X);
+                    selectionRectangle.Height = Math.Abs(y - anchorPoint.Y);
+
+                    if (selectionRectangle.Visibility != Visibility.Visible)
+                        selectionRectangle.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         private void MainImage_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             MainImage.ReleaseMouseCapture();
+            if (isDragging)
+            {
+                isDragging = false;
+                if (selectionRectangle.Visibility != Visibility.Visible)
+                    selectionRectangle.Visibility = Visibility.Visible;
+            }
         }
 
         //reset zoom and pan button code
         private void backToOriginal_Click(object sender, RoutedEventArgs e)
+        {
+            ResetZoomAndPan();
+        }
+
+        public void ResetZoomAndPan()
         {
             var st = STform;
             st.ScaleX = 1;
@@ -153,6 +197,8 @@ namespace PhotoEditorNet
             var tt = TTform;
             tt.X = origin.X;
             tt.Y = origin.Y;
+            Canvas.SetLeft(ImageGrid, (510 - MainImage.Width / 2));
+            Canvas.SetTop(ImageGrid, (230 - MainImage.Height / 2));
         }
 
         //Zoom Out button code
@@ -206,11 +252,29 @@ namespace PhotoEditorNet
             isOriginalShowing = !isOriginalShowing;
         }
 
+
         private void Export_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog save = new SaveFileDialog();
             save.Title = "Save image as ";
             save.Filter = "Jpeg Image | *.jpg |PNG Image | *.png | Bitmap Image | *.bmp ";
+
+            BitmapImage img = MainImage.Source as BitmapImage;
+            tempImage = new Bitmap(img.StreamSource);
+            if (!OriginalImage.Equals(tempImage))
+            {
+                //Display MessageBox asking to save image
+                MessageBoxResult result = MessageBox.Show("Exporting without saving will result in the changes not showing in the exported file. Do you wish to save before exporting?",
+                    "Disclaimer",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    OriginalImage = new Bitmap(img.StreamSource);
+                }
+            }
+
             if (OriginalImage != null)
             {
                 if (save.ShowDialog() == true)
@@ -251,6 +315,7 @@ namespace PhotoEditorNet
             }
         }
 
+        //Undo changes logic
         private void UndoChanges_Click(object sender, RoutedEventArgs e)
         {
             if (undoStack.Count > 0)
@@ -265,6 +330,7 @@ namespace PhotoEditorNet
 
         }
 
+        //Redo changes logic
         private void RedoChanges_Click(object sender, RoutedEventArgs e)
         {
             if (redoStack.Count > 0)

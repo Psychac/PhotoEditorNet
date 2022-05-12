@@ -31,6 +31,27 @@
                       Initialized="FontSizeChooser_Initialized"></ComboBox>
             <Label Content="Font Size" />
         </StackPanel>
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <ComboBox Margin="10"
+                      Height="25"
+                      Width="100"
+                      x:Name="FontColorChooser"
+                      Initialized="FontColorChooser_Initialized">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="{Binding Name}"
+                                       Width="16"
+                                       Height="16"
+                                       Margin="0,2,5,2" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Content="Font Color" />
+        </StackPanel>
         <!--StackPanel VerticalAlignment="Center">
             <ComboBox Margin="10"
                   Height="25"

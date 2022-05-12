@@ -109,7 +109,11 @@ namespace PhotoEditorNet.MVVM.ViewModel
             window2 = Application.Current.Windows
             .Cast<Window>()
             .FirstOrDefault(window => window is MainWindow) as MainWindow;
-            window2.MainImage.Source = BitmapToSource(window2.EditedImage);
+            //If statement to avoid getting error when switching views before image has been loaded from ofd
+            if(window2.EditedImage != null)
+            {
+                window2.MainImage.Source = BitmapToSource(window2.EditedImage);
+            }
         }
 
         public MainViewModel()
@@ -143,21 +147,23 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 .Cast<Window>()
                 .FirstOrDefault(window => window is MainWindow) as MainWindow;
 
-                System.Windows.Shapes.Rectangle rect;
-                window2.CroppingArea.Visibility = Visibility.Visible;
-                rect = window2.CroppingArea;
-                rect.Stroke = new SolidColorBrush(Colors.Black);
-                rect.Fill = new SolidColorBrush(Colors.Black);
-                rect.Opacity = 0.2;
-                rect.StrokeThickness = 2;
-                rect.Width = 200;
-                rect.Height = 200;
+                window2.ResetZoomAndPan();
+                window2.AllowPan.IsChecked = false;
+                //System.Windows.Shapes.Rectangle rect;
+                //window2.CroppingArea.Visibility = Visibility.Visible;
+                //rect = window2.CroppingArea;
+                //rect.Stroke = new SolidColorBrush(Colors.Black);
+                //rect.Fill = new SolidColorBrush(Colors.Black);
+                //rect.Opacity = 0.2;
+                //rect.StrokeThickness = 2;
+                //rect.Width = 200;
+                //rect.Height = 200;
 
-                Canvas.SetLeft(rect, (500 - window2.MainImage.ActualWidth / 2));
-                Canvas.SetTop(rect, 0);
+                //Canvas.SetLeft(rect, (510 - window2.MainImage.ActualWidth / 2));
+                //Canvas.SetTop(rect, 0);
 
-                var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.CroppingArea);
-                myAdornerLayer.Add(new SimpleCircleAdorner(rect));
+                //var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.CroppingArea);
+                //myAdornerLayer.Add(new SimpleCircleAdorner(rect));
                 isCropOn = true;
             });
 
