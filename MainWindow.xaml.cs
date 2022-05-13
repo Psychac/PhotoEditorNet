@@ -340,6 +340,40 @@ namespace PhotoEditorNet
                 MainImage.Source = BitmapToSource(temp);
             }
         }
+
+        #region Drag and Drop Functionality for Adding Text to image
+
+        System.Windows.Point initialOffset;
+        private void AddTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            AddTextBlock.CaptureMouse();
+            initialOffset = e.GetPosition(BackPanel);
+            //initialOffset.X -= Canvas.GetLeft(AddTextBlock);
+            //initialOffset.Y -= Canvas.GetTop(AddTextBlock);
+        }
+
+        private void AddTextBlock_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (AddTextBlock.IsMouseCaptured)
+            {
+                System.Windows.Point changeOffset = e.GetPosition(BackPanel);
+                if (changeOffset.X >= 0 && changeOffset.X <= BackPanel.ActualWidth - AddTextBlock.ActualWidth)
+                {
+                    Canvas.SetLeft(AddTextBlock, changeOffset.X);
+                }
+                if(changeOffset.Y >= 0 && changeOffset.Y <= BackPanel.ActualHeight - AddTextBlock.ActualHeight)
+                {
+                    Canvas.SetTop(AddTextBlock, changeOffset.Y);
+                }
+                
+            }
+        }
+
+        private void AddTextBlock_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            AddTextBlock.ReleaseMouseCapture();
+        }
+        #endregion
     }
     //public class depProp : INotifyPropertyChanged
     //{

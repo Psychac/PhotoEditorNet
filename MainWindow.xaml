@@ -428,9 +428,10 @@
                                        Fill="#220000FF"
                                        Visibility="Collapsed" />
                             <TextBlock x:Name="AddTextBlock"
-                                       Text="Hello from the other side"
-                                       Visibility="Visible" 
-                                       />
+                                       Visibility="Collapsed" 
+                                       MouseLeftButtonDown="AddTextBlock_MouseLeftButtonDown"
+                                       MouseMove="AddTextBlock_MouseMove"
+                                       MouseLeftButtonUp="AddTextBlock_MouseLeftButtonUp"/>
                         </Canvas>
                     </Grid>
                     <Rectangle x:Name="CroppingArea"
