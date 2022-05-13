@@ -17,19 +17,32 @@
             <ComboBox Height="25"
                       Margin="10"
                       Width="100"
+                      BorderThickness="0"
                       x:Name="FontChooser"
                       Initialized="FontChooser_Initialized"
-                      SelectionChanged="FontChooser_SelectionChanged"></ComboBox>
-            <Label Content="Font Family" />
+                      SelectionChanged="FontChooser_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Source}"
+                                   FontFamily="{Binding Source}"
+                                   FontSize="16"
+                                   ToolTip="{Binding Source}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Content="Font Family"
+                   HorizontalContentAlignment="Center" />
         </StackPanel>
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center">
             <ComboBox Margin="10"
                       Height="25"
-                      Width="100"
+                      Width="50"
                       x:Name="FontSizeChooser"
-                      Initialized="FontSizeChooser_Initialized"></ComboBox>
-            <Label Content="Font Size" />
+                      Initialized="FontSizeChooser_Initialized"
+                      SelectionChanged="FontSizeChooser_SelectionChanged"></ComboBox>
+            <Label Content="Font Size"
+                   HorizontalContentAlignment="Center" />
         </StackPanel>
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center">
@@ -37,6 +50,7 @@
                       Height="25"
                       Width="100"
                       x:Name="FontColorChooser"
+                      SelectionChanged="FontColorChooser_SelectionChanged"
                       Initialized="FontColorChooser_Initialized">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -50,7 +64,17 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Label Content="Font Color" />
+            <Label Content="Font Color"
+                   HorizontalContentAlignment="Center" />
+        </StackPanel>
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <TextBox x:Name="TextInput"
+                     Width="200"
+                     Height="50"
+                     Text="Enter your text here"></TextBox>
+            <Label HorizontalContentAlignment="Center"
+                   Content="Text to add" />
         </StackPanel>
         <!--StackPanel VerticalAlignment="Center">
             <ComboBox Margin="10"
@@ -62,7 +86,8 @@
             </ComboBox>
             <Label Content="Font Style"/>
         </StackPanel-->
-        <Button Height="50"
+        <Button x:Name="AddTextButton"
+                Height="50"
                 Width="100"
                 Margin="5,10,5,10"
                 Background="Transparent"
@@ -70,7 +95,8 @@
                 VerticalContentAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                Click="AddTextButton_Click">
             <WrapPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
                 <Image Source="/Images/font.png"
@@ -108,7 +134,9 @@
                 VerticalContentAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                x:Name="DiscardChanges"
+                Click="DiscardChanges_Click">
             <WrapPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
                 <Image Source="/Images/close.png"
