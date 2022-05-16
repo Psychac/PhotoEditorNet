@@ -131,7 +131,8 @@ namespace PhotoEditorNet.MVVM.ViewModel
             {
                 CurrentView = RotateVm;
                 SetImage();
-                if(isCropOn)
+                window2.isDrawingModeOn = false;
+                if (isCropOn)
                 {
                     ExitCrop();
                     isCropOn = false;
@@ -142,11 +143,11 @@ namespace PhotoEditorNet.MVVM.ViewModel
             {
                 CurrentView = CropVm;
                 SetImage();
-
+               
                 window2 = Application.Current.Windows
                 .Cast<Window>()
                 .FirstOrDefault(window => window is MainWindow) as MainWindow;
-
+                window2.isDrawingModeOn = false;
                 window2.ResetZoomAndPan();
                 window2.AllowPan.IsChecked = false;
                 //System.Windows.Shapes.Rectangle rect;
@@ -171,7 +172,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
             {
                 CurrentView = LightVm;
                 SetImage();
-
+                window2.isDrawingModeOn = false;
                 if (isCropOn)
                 {
                     ExitCrop();
@@ -183,7 +184,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
             {
                 CurrentView = ColorVm;
                 SetImage();
-
+                window2.isDrawingModeOn = false;
                 if (isCropOn)
                 {
                     ExitCrop();
@@ -195,7 +196,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
             {
                 CurrentView = EffectsVm;
                 SetImage();
-
+                window2.isDrawingModeOn = false;
                 if (isCropOn)
                 {
                     ExitCrop();
@@ -207,7 +208,16 @@ namespace PhotoEditorNet.MVVM.ViewModel
             {
                 CurrentView = DrawVm;
                 SetImage();
-
+                window2.ResetZoomAndPan();
+                window2.AllowPan.IsChecked = false;
+                window2.isDrawingModeOn = true;
+                BitmapImage img = window2.MainImage.Source as BitmapImage;
+                window2.bmp = new Bitmap(img.StreamSource);
+                window2.g = Graphics.FromImage(window2.bmp);
+                //window2.g.Clear(System.Drawing.Color.White);
+                window2.scaleWidth = (img.PixelWidth) / (window2.MainImage.ActualWidth);
+                window2.scaleHeight = (img.PixelHeight) / (window2.MainImage.ActualHeight);
+                window2.MainImage.Source = BitmapToSource(window2.bmp);
                 if (isCropOn)
                 {
                     ExitCrop();
@@ -219,7 +229,12 @@ namespace PhotoEditorNet.MVVM.ViewModel
             {
                 CurrentView = TextVm;
                 SetImage();
-
+                window2.ResetZoomAndPan();
+                window2.AllowPan.IsChecked = false;
+                window2.isDrawingModeOn = false;
+                BitmapImage img = window2.MainImage.Source as BitmapImage;
+                window2.scaleWidth = (img.PixelWidth) / (window2.MainImage.ActualWidth);
+                window2.scaleHeight = (img.PixelHeight) / (window2.MainImage.ActualHeight);
                 if (isCropOn)
                 {
                     ExitCrop();

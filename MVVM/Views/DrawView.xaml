@@ -30,7 +30,9 @@
                 VerticalContentAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                x:Name="PenTool"
+                Click="PenTool_Click">
             <WrapPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
                 <Image Source="/Images/edit.png"

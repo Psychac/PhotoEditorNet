@@ -24,7 +24,14 @@ namespace PhotoEditorNet.MVVM.Views
     {
         private Bitmap beforeEdit;
         private Bitmap afterEdit;
-        MainWindow window2;
+        MainWindow window2; 
+
+        Bitmap bmp;
+        Graphics g;
+        bool paint = false;
+        System.Drawing.Point px, py;
+        System.Drawing.Pen p = new System.Drawing.Pen(System.Drawing.Color.Black, 1);
+        int index;
 
         public DrawView()
         {
@@ -53,12 +60,18 @@ namespace PhotoEditorNet.MVVM.Views
                 window2.MainImage.Source = BitmapToSource(new Bitmap(window2.EditedImage));
         }
 
+        private void PenTool_Click(object sender, RoutedEventArgs e)
+        {
+            window2.index = 1;
+        }
+
         private void ApplyChanges_Click(object sender, RoutedEventArgs e)
         {
             BitmapImage img = window2.MainImage.Source as BitmapImage;
             window2.EditedImage = new Bitmap(img.StreamSource);
             window2.undoStack.Push(window2.EditedImage);
             window2.redoStack.Clear();
+            
         }
     }
 }

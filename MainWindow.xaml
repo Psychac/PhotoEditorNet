@@ -433,6 +433,14 @@
                                        MouseMove="AddTextBlock_MouseMove"
                                        MouseLeftButtonUp="AddTextBlock_MouseLeftButtonUp"/>
                         </Canvas>
+                        <Canvas  x:Name="DrawingBoard"
+                                 MouseLeftButtonDown="DrawingBoard_MouseDown"
+                                 MouseMove="DrawingBoard_MouseMove"
+                                 MouseLeftButtonUp="DrawingBoard_MouseUp"
+                                 Height="{Binding ElementName=MainImage, Path=ActualHeight}"
+                                 Width="{Binding ElementName=MainImage, Path=ActualWidth}">
+                            
+                        </Canvas>
                     </Grid>
                     <Rectangle x:Name="CroppingArea"
                                Visibility="Collapsed"></Rectangle>
