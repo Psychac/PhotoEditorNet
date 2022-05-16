@@ -143,12 +143,13 @@ namespace PhotoEditorNet.MVVM.Views
             window2.EditedImage = new Bitmap(img.StreamSource);
             window2.undoStack.Push(window2.EditedImage);
             window2.redoStack.Clear();
-            
         }
 
         private void DiscardChanges_Click(object sender, RoutedEventArgs e)
         {
             window2.MainImage.Source = BitmapToSource(window2.EditedImage);
+            window2.bmp = new Bitmap(window2.EditedImage);
+            window2.g = Graphics.FromImage(window2.bmp);
         }
     }
 }

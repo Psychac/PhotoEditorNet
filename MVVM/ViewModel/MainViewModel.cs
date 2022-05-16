@@ -215,13 +215,17 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 window2.ResetZoomAndPan();
                 window2.AllowPan.IsChecked = false;
                 window2.isDrawingModeOn = true;
-                BitmapImage img = window2.MainImage.Source as BitmapImage;
-                window2.bmp = new Bitmap(img.StreamSource);
-                window2.g = Graphics.FromImage(window2.bmp);
-                //window2.g.Clear(System.Drawing.Color.White);
-                window2.scaleWidth = (img.PixelWidth) / (window2.MainImage.ActualWidth);
-                window2.scaleHeight = (img.PixelHeight) / (window2.MainImage.ActualHeight);
-                window2.MainImage.Source = BitmapToSource(window2.bmp);
+                if(window2.EditedImage != null)
+                {
+                    BitmapImage img = window2.MainImage.Source as BitmapImage;
+                    window2.bmp = new Bitmap(img.StreamSource);
+                    window2.g = Graphics.FromImage(window2.bmp);
+                    //window2.g.Clear(System.Drawing.Color.White);
+                    window2.scaleWidth = (img.PixelWidth) / (window2.MainImage.ActualWidth);
+                    window2.scaleHeight = (img.PixelHeight) / (window2.MainImage.ActualHeight);
+                    window2.MainImage.Source = BitmapToSource(window2.bmp);
+                }
+                
                 if (isCropOn)
                 {
                     ExitCrop();
