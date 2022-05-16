@@ -33,7 +33,19 @@ namespace PhotoEditorNet
         public Bitmap EditedImage;
         public Bitmap tempImage;
 
+        //Drawing variables
         public bool isDrawingModeOn = false;
+        public Bitmap bmp;
+        public Graphics g;
+        bool paint = false;
+        System.Drawing.Point px, py;
+        public float penThickness = 5f;
+        public System.Drawing.Color penColor = System.Drawing.Color.Black;
+        System.Drawing.Pen p;
+        System.Drawing.Pen eraser = new System.Drawing.Pen(System.Drawing.Color.White, 5);
+        public int index = 0;
+        public double scaleWidth, scaleHeight;
+        public int xX, yY, cX, cY, sX, sY;
 
         public bool isDragging;
         private System.Windows.Point anchorPoint = new System.Windows.Point();
@@ -130,7 +142,7 @@ namespace PhotoEditorNet
         private void MainImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MainImage.CaptureMouse();
-            if ((bool)AllowPan.IsChecked && !isDrawingModeOn)
+            if ((bool)AllowPan.IsChecked)
             {
                 MainImage.Focus();
                 var tt = (TranslateTransform)((TransformGroup)MainImage.RenderTransform)
@@ -146,19 +158,21 @@ namespace PhotoEditorNet
                     isDragging = true;
                 }
             }
+            //Drawing
             if (isDrawingModeOn)
             {
                 paint = true;
                 System.Windows.Point pos = e.GetPosition(MainImage);
                 py = new System.Drawing.Point(Convert.ToInt32(pos.X * scaleWidth), Convert.ToInt32(pos.Y * scaleHeight));
-                // ppy = e.GetPosition(DrawingBoard);
                 MainImage.CaptureMouse();
+                cX = (int)(pos.X * scaleWidth);
+                cY = (int)(pos.Y * scaleHeight);
             }
         }
 
         private void MainImage_MouseMove(object sender, MouseEventArgs e)
         {
-            if ((bool)AllowPan.IsChecked && MainImage.IsMouseCaptured && !isDrawingModeOn)
+            if ((bool)AllowPan.IsChecked && MainImage.IsMouseCaptured)
             {
                 var tt = (TranslateTransform)((TransformGroup)MainImage.RenderTransform)
                     .Children.First(tr => tr is TranslateTransform);
@@ -183,17 +197,28 @@ namespace PhotoEditorNet
             }
             if (isDrawingModeOn && paint && MainImage.IsMouseCaptured)
             {
+                System.Windows.Point pos = e.GetPosition(MainImage);
                 if (index == 1)
                 {
-                    System.Windows.Point pos = e.GetPosition(MainImage);
+                    //System.Windows.Point pos = e.GetPosition(MainImage);
                     px = new System.Drawing.Point(Convert.ToInt32(pos.X * scaleWidth), Convert.ToInt32(pos.Y * scaleHeight));
-                    //ppx = e.GetPosition(DrawingBoard);
-                    //g.DrawLine(p, ppx, ppy);
+                    p = new System.Drawing.Pen(penColor, penThickness);
                     g.DrawLine(p, px, py);
                     py = px;
                 }
-                DrawingBoard.UpdateLayout();
+                if (index == 2)
+                {
+                    //System.Windows.Point pos = e.GetPosition(MainImage);
+                    px = new System.Drawing.Point(Convert.ToInt32(pos.X * scaleWidth), Convert.ToInt32(pos.Y * scaleHeight));
+                    eraser = new System.Drawing.Pen(System.Drawing.Color.White, penThickness);
+                    g.DrawLine(eraser, px, py);
+                    py = px;
+                }
                 MainImage.Source = BitmapToSource(bmp);
+                xX = (int)(pos.X * scaleWidth);
+                yY = (int)(pos.Y * scaleHeight);
+                sX = (int)(pos.X * scaleWidth) - cX;
+                sY = (int)(pos.Y * scaleHeight) - cY;
             }
         }
 
@@ -203,6 +228,25 @@ namespace PhotoEditorNet
             {
                 MainImage.ReleaseMouseCapture();
                 paint = false;
+                sX = xX - cX;
+                sY= yY - cY;
+
+                if(index == 3)
+                {
+                    p = new System.Drawing.Pen(penColor, penThickness);
+                    g.DrawEllipse(p, cX, cY, sX, sY);
+                }
+                if (index == 4)
+                {
+                    p = new System.Drawing.Pen(penColor, penThickness);
+                    g.DrawRectangle(p, cX, cY, sX, sY);
+                }
+                if (index == 5)
+                {
+                    p = new System.Drawing.Pen(penColor, penThickness);
+                    g.DrawLine(p, cX, cY, xX, yY);
+                }
+                MainImage.Source = BitmapToSource(bmp);
             }
             MainImage.ReleaseMouseCapture();
             if (isDragging && !isDrawingModeOn )
@@ -406,75 +450,11 @@ namespace PhotoEditorNet
         }
         #endregion
 
-        PointConverter pointConverter = new PointConverter();
-
-        public Bitmap bmp;
-        public Graphics g;
-        bool paint = false;
-        System.Drawing.Point px, py;
-        System.Windows.Point ppx, ppy;
-        System.Drawing.Pen p = new System.Drawing.Pen(System.Drawing.Color.Black, 5);
-        public int index = 0;
-        public double scaleWidth,scaleHeight;
+        
+        
         
 
-        private void DrawingBoard_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //if(isDrawingModeOn)
-            //{
-            //    paint = true;
-            //    System.Windows.Point pos = e.GetPosition(MainImage);
-            //    py = new System.Drawing.Point(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y));
-            //    // ppy = e.GetPosition(DrawingBoard);
-            //    MainImage.CaptureMouse();
-            //}
-            
-        }
-
-        private void DrawingBoard_MouseMove(object sender, MouseEventArgs e)
-        {
-            //if(isDrawingModeOn && paint && MainImage.IsMouseCaptured)
-            //{
-            //    if(index==1)
-            //    {
-            //        System.Windows.Point pos = e.GetPosition(MainImage);
-            //        px = new System.Drawing.Point(Convert.ToInt32(pos.X), Convert.ToInt32(pos.Y));
-            //        //ppx = e.GetPosition(DrawingBoard);
-            //        //g.DrawLine(p, ppx, ppy);
-            //        g.DrawLine(p, px, py);
-            //        py = px;
-            //    }
-            //    DrawingBoard.UpdateLayout();
-            //    MainImage.Source = BitmapToSource(bmp);
-            //}
-        }
-
-        private void DrawingBoard_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            //if(isDrawingModeOn)
-            //{
-            //    MainImage.ReleaseMouseCapture();
-            //    paint = false;
-            //}
-            
-        }
-
-        public class PointConverter : IValueConverter
-        {
-            public object Convert(object value, Type targetType,
-                object parameter, CultureInfo culture)
-            {
-                System.Drawing.Point dp = (System.Drawing.Point)value;
-                return new System.Windows.Point(dp.X, dp.Y);
-            }
-
-            public object ConvertBack(object value, Type targetType,
-                object parameter, CultureInfo culture)
-            {
-                System.Windows.Point wp = (System.Windows.Point)value;
-                return new System.Drawing.Point((int)wp.X, (int)wp.Y);
-            }
-        }
+        
     }
     //public class depProp : INotifyPropertyChanged
     //{

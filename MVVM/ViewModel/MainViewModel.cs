@@ -132,6 +132,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 CurrentView = RotateVm;
                 SetImage();
                 window2.isDrawingModeOn = false;
+                window2.AllowPan.IsChecked = true;
                 if (isCropOn)
                 {
                     ExitCrop();
@@ -173,6 +174,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 CurrentView = LightVm;
                 SetImage();
                 window2.isDrawingModeOn = false;
+                window2.AllowPan.IsChecked = true;
                 if (isCropOn)
                 {
                     ExitCrop();
@@ -185,6 +187,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 CurrentView = ColorVm;
                 SetImage();
                 window2.isDrawingModeOn = false;
+                window2.AllowPan.IsChecked = true;
                 if (isCropOn)
                 {
                     ExitCrop();
@@ -197,6 +200,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 CurrentView = EffectsVm;
                 SetImage();
                 window2.isDrawingModeOn = false;
+                window2.AllowPan.IsChecked = true;
                 if (isCropOn)
                 {
                     ExitCrop();

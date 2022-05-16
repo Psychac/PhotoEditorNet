@@ -14,13 +14,34 @@
             <Label Content="Brush Size" />
             <ComboBox Width="100"
                       Height="25"
-                      Margin="10"></ComboBox>
+                      Margin="10"
+                      x:Name="PenSizeChooser"
+                      Initialized="PenSizeChooser_Initialized"
+                      SelectionChanged="PenSizeChooser_SelectionChanged">
+                
+            </ComboBox>
         </StackPanel>
+        <TextBlock x:Name="Test"/>
         <StackPanel VerticalAlignment="Center">
             <Label Content="Brush Color" />
             <ComboBox Width="100"
                       Height="25"
-                      Margin="10"></ComboBox>
+                      Margin="10"
+                      x:Name="PenColorChooser"
+                      Initialized="PenColor_Initialized"
+                      SelectionChanged="PenColorChooser_SelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle Fill="{Binding Name}"
+                                       Width="16"
+                                       Height="16"
+                                       Margin="0,2,5,2" />
+                            <TextBlock Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
         </StackPanel>
         <Button Height="50"
                 Width="100"
@@ -50,7 +71,9 @@
                 VerticalContentAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                x:Name="EraserTool"
+                Click="EraserTool_Click">
             <WrapPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
                 <Image Source="/Images/eraser.png"
@@ -58,6 +81,66 @@
                        Height="20"
                        Margin="0,0,5,0" />
                 <TextBlock Text="Erase"></TextBlock>
+            </WrapPanel>
+        </Button>
+        <Button Height="50"
+                Width="100"
+                Margin="5,10,5,10"
+                Background="Transparent"
+                BorderThickness="0"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                x:Name="EllipseTool"
+                Click="EllipseTool_Click">
+            <WrapPanel VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                <Image Source="/Images/eraser.png"
+                       Width="20"
+                       Height="20"
+                       Margin="0,0,5,0" />
+                <TextBlock Text="Ellipse"></TextBlock>
+            </WrapPanel>
+        </Button>
+        <Button Height="50"
+                Width="100"
+                Margin="5,10,5,10"
+                Background="Transparent"
+                BorderThickness="0"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                x:Name="RectangleTool"
+                Click="RectangleTool_Click">
+            <WrapPanel VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                <Image Source="/Images/eraser.png"
+                       Width="20"
+                       Height="20"
+                       Margin="0,0,5,0" />
+                <TextBlock Text="Rectangle"></TextBlock>
+            </WrapPanel>
+        </Button>
+        <Button Height="50"
+                Width="100"
+                Margin="5,10,5,10"
+                Background="Transparent"
+                BorderThickness="0"
+                VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                x:Name="LineTool"
+                Click="LineTool_Click">
+            <WrapPanel VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+                <Image Source="/Images/eraser.png"
+                       Width="20"
+                       Height="20"
+                       Margin="0,0,5,0" />
+                <TextBlock Text="Line"></TextBlock>
             </WrapPanel>
         </Button>
         <Button Height="50"
@@ -88,7 +171,9 @@
                 VerticalContentAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                x:Name="DiscardChanges"
+                Click="DiscardChanges_Click">
             <WrapPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
                 <Image Source="/Images/close.png"

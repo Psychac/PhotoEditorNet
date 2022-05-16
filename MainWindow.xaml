@@ -428,18 +428,10 @@
                                        Fill="#220000FF"
                                        Visibility="Collapsed" />
                             <TextBlock x:Name="AddTextBlock"
-                                       Visibility="Collapsed" 
+                                       Visibility="Collapsed"
                                        MouseLeftButtonDown="AddTextBlock_MouseLeftButtonDown"
                                        MouseMove="AddTextBlock_MouseMove"
-                                       MouseLeftButtonUp="AddTextBlock_MouseLeftButtonUp"/>
-                        </Canvas>
-                        <Canvas  x:Name="DrawingBoard"
-                                 MouseLeftButtonDown="DrawingBoard_MouseDown"
-                                 MouseMove="DrawingBoard_MouseMove"
-                                 MouseLeftButtonUp="DrawingBoard_MouseUp"
-                                 Height="{Binding ElementName=MainImage, Path=ActualHeight}"
-                                 Width="{Binding ElementName=MainImage, Path=ActualWidth}">
-                            
+                                       MouseLeftButtonUp="AddTextBlock_MouseLeftButtonUp" />
                         </Canvas>
                     </Grid>
                     <Rectangle x:Name="CroppingArea"
