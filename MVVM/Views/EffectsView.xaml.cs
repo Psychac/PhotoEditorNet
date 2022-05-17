@@ -82,6 +82,42 @@ namespace PhotoEditorNet.MVVM.Views
                     new float[]{-0.03f, 0.05f, -0.02f, 0, 1}
                     });
 
+        ColorMatrix MatrixLuminanceToAlpha = new ColorMatrix(new float[][]
+                    {
+                    new float[]{1, 0, 0, 0, 0},
+                    new float[]{0, 1, 0, 0, 0},
+                    new float[]{0, 0, 1, 0, 0},
+                    new float[]{0.2125f, 0.7154f, 0.0721f, 0, 0},
+                    new float[]{0, 0, 0, 0, 1}
+                    });
+
+        ColorMatrix MatrixNightVision = new ColorMatrix(new float[][]
+            {
+                    new float[]{0.1f, 0.4f, 0, 0, 0},
+                    new float[]{0.3f, 1f, 0.3f, 0, 0},
+                    new float[]{0, 0.4f, 0.1f, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{0, 0, 0, 0, 1}
+            });
+
+        ColorMatrix MatrixWarm = new ColorMatrix(new float[][]
+            {
+                    new float[]{1.06f, 0, 0, 0, 0},
+                    new float[]{0, 1.01f, 0, 0, 0},
+                    new float[]{0, 0, 0.93f, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{0, 0, 0, 0, 1}
+            });
+
+        ColorMatrix MatrixCool = new ColorMatrix(new float[][]
+            {
+                    new float[]{0.99f, 0, 0, 0, 0},
+                    new float[]{0, 0.93f, 0, 0, 0},
+                    new float[]{0, 0, 1.08f, 0, 0},
+                    new float[]{0, 0, 0, 1, 0},
+                    new float[]{0, 0, 0, 0, 1}
+            });
+
         //Constructor
         public EffectsView()
         {
@@ -126,6 +162,26 @@ namespace PhotoEditorNet.MVVM.Views
                 BitmapImage ThumbnailPolaroid = BitmapToSource((Bitmap)Polaroid);
                 ThumbnailPolaroid.DecodePixelWidth = 200;
                 Effects_Polaroid.Source = ThumbnailPolaroid;
+
+                Bitmap LuminanceToAlpha = SetEffectUsingColorMatrix(window2.EditedImage, MatrixLuminanceToAlpha);
+                BitmapImage ThumbnailLuminanceToAlpha = BitmapToSource((Bitmap)LuminanceToAlpha);
+                ThumbnailLuminanceToAlpha.DecodePixelWidth = 200;
+                Effects_LuminanceToAlpha.Source = ThumbnailLuminanceToAlpha;
+
+                Bitmap NightVision = SetEffectUsingColorMatrix(window2.EditedImage, MatrixNightVision);
+                BitmapImage ThumbnailNightVision = BitmapToSource((Bitmap)NightVision);
+                ThumbnailNightVision.DecodePixelWidth = 200;
+                Effects_NightVision.Source = ThumbnailNightVision;
+
+                Bitmap Warm = SetEffectUsingColorMatrix(window2.EditedImage, MatrixWarm);
+                BitmapImage ThumbnailWarm = BitmapToSource((Bitmap)Warm);
+                ThumbnailWarm.DecodePixelWidth = 200;
+                Effects_Warm.Source = ThumbnailWarm;
+
+                Bitmap Cool = SetEffectUsingColorMatrix(window2.EditedImage, MatrixCool);
+                BitmapImage ThumbnailCool = BitmapToSource((Bitmap)Cool);
+                ThumbnailCool.DecodePixelWidth = 200;
+                Effects_Cool.Source = ThumbnailCool;
             }
         }
 
@@ -252,6 +308,62 @@ namespace PhotoEditorNet.MVVM.Views
             }
         }
 
+        private void LuminanceToAlpha_Click(object sender, RoutedEventArgs e)
+        {
+            reload();
+            if (IsLoaded)
+            {
+                //Getting the displayed image
+                BitmapImage img = window2.MainImage.Source as BitmapImage;
+                beforeEdit = new Bitmap(img.StreamSource);
+
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixLuminanceToAlpha);
+                window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
+            }
+        }
+
+        private void NightVision_Click(object sender, RoutedEventArgs e)
+        {
+            reload();
+            if (IsLoaded)
+            {
+                //Getting the displayed image
+                BitmapImage img = window2.MainImage.Source as BitmapImage;
+                beforeEdit = new Bitmap(img.StreamSource);
+
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixNightVision);
+                window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
+            }
+        }
+
+        private void Warm_Click(object sender, RoutedEventArgs e)
+        {
+            reload();
+            if (IsLoaded)
+            {
+                //Getting the displayed image
+                BitmapImage img = window2.MainImage.Source as BitmapImage;
+                beforeEdit = new Bitmap(img.StreamSource);
+
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixWarm);
+                window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
+            }
+        }
+
+        private void Cool_Click(object sender, RoutedEventArgs e)
+        {
+            reload();
+            if (IsLoaded)
+            {
+                //Getting the displayed image
+                BitmapImage img = window2.MainImage.Source as BitmapImage;
+                beforeEdit = new Bitmap(img.StreamSource);
+
+                afterEdit = SetEffectUsingColorMatrix(beforeEdit, MatrixCool);
+                window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
+            }
+        }
+
         private void Discard_Click(object sender, RoutedEventArgs e)
         {
             window2.MainImage.Source = BitmapToSource(new Bitmap(window2.EditedImage)); ;
@@ -264,5 +376,7 @@ namespace PhotoEditorNet.MVVM.Views
             window2.undoStack.Push(window2.EditedImage);
             window2.redoStack.Clear();
         }
+
+        
     }
 }

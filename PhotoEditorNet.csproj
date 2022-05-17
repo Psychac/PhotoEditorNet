@@ -233,5 +233,10 @@
   <ItemGroup>
     <Resource Include="insert-picture-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ellipse.png" />
+    <Resource Include="Images\line.png" />
+    <Resource Include="Images\rectangle%281%29.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

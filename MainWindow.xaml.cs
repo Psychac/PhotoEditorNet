@@ -18,6 +18,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 namespace PhotoEditorNet
 {
@@ -314,19 +315,55 @@ namespace PhotoEditorNet
 
         private void CompareToOriginal_Click(object sender, RoutedEventArgs e)
         {
-            if (isOriginalShowing == false)
+            if (isOriginalShowing)
+            {
+                MainImage.Source = BitmapToSource((Bitmap)tempImage);
+            }
+            else
             {
                 BitmapImage img = MainImage.Source as BitmapImage;
                 tempImage = new Bitmap(img.StreamSource);
                 MainImage.Source = BitmapToSource(new Bitmap(OriginalImage));
             }
-            else
-            {
-                MainImage.Source = BitmapToSource((Bitmap)tempImage);
-            }
             isOriginalShowing = !isOriginalShowing;
         }
 
+        //Method for comparing bitmaps
+        public static bool CompareBitmapsFast(Bitmap bmp1, Bitmap bmp2)
+        {
+            if (bmp1 == null || bmp2 == null)
+                return false;
+            if (object.Equals(bmp1, bmp2))
+                return true;
+            if (!bmp1.Size.Equals(bmp2.Size) || !bmp1.PixelFormat.Equals(bmp2.PixelFormat))
+                return false;
+
+            int bytes = bmp1.Width * bmp1.Height * (System.Drawing.Image.GetPixelFormatSize(bmp1.PixelFormat) / 8);
+
+            bool result = true;
+            byte[] b1bytes = new byte[bytes];
+            byte[] b2bytes = new byte[bytes];
+
+            BitmapData bitmapData1 = bmp1.LockBits(new System.Drawing.Rectangle(0, 0, bmp1.Width, bmp1.Height), ImageLockMode.ReadOnly, bmp1.PixelFormat);
+            BitmapData bitmapData2 = bmp2.LockBits(new System.Drawing.Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, bmp2.PixelFormat);
+
+            Marshal.Copy(bitmapData1.Scan0, b1bytes, 0, bytes);
+            Marshal.Copy(bitmapData2.Scan0, b2bytes, 0, bytes);
+
+            for (int n = 0; n <= bytes - 1; n++)
+            {
+                if (b1bytes[n] != b2bytes[n])
+                {
+                    result = false;
+                    break;
+                }
+            }
+
+            bmp1.UnlockBits(bitmapData1);
+            bmp2.UnlockBits(bitmapData2);
+
+            return result;
+        }
 
         private void Export_Click(object sender, RoutedEventArgs e)
         {
@@ -336,7 +373,8 @@ namespace PhotoEditorNet
 
             BitmapImage img = MainImage.Source as BitmapImage;
             tempImage = new Bitmap(img.StreamSource);
-            if (!OriginalImage.Equals(tempImage))
+            //if image is not saved yet
+            if (!CompareBitmapsFast(OriginalImage,tempImage))
             {
                 //Display MessageBox asking to save image
                 MessageBoxResult result = MessageBox.Show("Exporting without saving will result in the changes not showing in the exported file. Do you wish to save before exporting?",
@@ -400,7 +438,11 @@ namespace PhotoEditorNet
                 if (undoStack.Count > 0)
                     MainImage.Source = BitmapToSource(undoStack.Peek());
                 else
+                {
                     MainImage.Source = BitmapToSource(OriginalImage);
+                    undoStack.Push(EditedImage);
+                }
+                    
             }
 
         }
@@ -451,22 +493,5 @@ namespace PhotoEditorNet
         #endregion
 
         
-        
-        
-
-        
     }
-    //public class depProp : INotifyPropertyChanged
-    //{
-    //    private string _fileName;
-    //    public string FileName
-    //    {
-    //        get { return _fileName; }
-    //        set { _fileName = value; NotifyPropertyChanged(nameof(FileName)); }
-    //    }
-
-    //    public event PropertyChangedEventHandler PropertyChanged;
-    //    internal void NotifyPropertyChanged(string propertyName) =>
-    //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    //}
 }

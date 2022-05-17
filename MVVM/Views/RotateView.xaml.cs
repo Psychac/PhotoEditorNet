@@ -36,7 +36,11 @@ namespace PhotoEditorNet.MVVM.Views
             .FirstOrDefault(window => window is MainWindow) as MainWindow;
         }
 
-
+        /// <summary>
+        /// Converts a bitmap to allow it to be used as a source for Image control
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns>BitmapImage</returns>
         private static BitmapImage BitmapToSource(Bitmap src)
         {
             System.IO.MemoryStream ms = new System.IO.MemoryStream();
@@ -132,13 +136,6 @@ namespace PhotoEditorNet.MVVM.Views
             g.RotateTransform(rotate);
             g.DrawImage(afterEdit, new PointF(-offset.X, -offset.Y));
             window2.MainImage.Source = BitmapToSource(new Bitmap(rotateBitmap));
-            //reload();
-            //float slider = (float)RotationSlider.Value;
-            //PrepareForEdit();
-            //Graphics g = Graphics.FromImage(afterEdit);
-            //g.RotateTransform(slider);
-            //g.DrawImage(afterEdit, 0, 0);
-            //window2.MainImage.Source = BitmapToSource(new Bitmap(afterEdit)); ;
         }
 
 

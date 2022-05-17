@@ -7,10 +7,13 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
-    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
         <ScrollViewer HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Disabled"
-                      Margin="10">
+                      Margin="10"
+                      Width="500">
             <StackPanel Orientation="Horizontal"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center">
@@ -126,6 +129,74 @@
                                x:Name="Effects_Polaroid"></Image>
                     </Button>
                     <Label Content="Polaroid"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center" />
+                </Grid>
+                <Grid>
+                    <Button x:Name="LuminanceToAlpha"
+                            Click="LuminanceToAlpha_Click"
+                            Background="White"
+                            BorderThickness="0.5">
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_LuminanceToAlpha"></Image>
+                    </Button>
+                    <Label Content="LuminanceToAlpha"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center" />
+                </Grid>
+                <Grid>
+                    <Button x:Name="NightVision"
+                            Click="NightVision_Click"
+                            Background="White"
+                            BorderThickness="0.5">
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_NightVision"></Image>
+                    </Button>
+                    <Label Content="NightVision"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center" />
+                </Grid>
+                <Grid>
+                    <Button x:Name="Warm"
+                            Click="Warm_Click"
+                            Background="White"
+                            BorderThickness="0.5">
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_Warm"></Image>
+                    </Button>
+                    <Label Content="Warm"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           Background="#A0000000"
+                           Foreground="White"
+                           Width="100"
+                           HorizontalContentAlignment="Center" />
+                </Grid>
+                <Grid>
+                    <Button x:Name="Cool"
+                            Click="Cool_Click"
+                            Background="White"
+                            BorderThickness="0.5">
+                        <Image Height="100"
+                               Width="100"
+                               x:Name="Effects_Cool"></Image>
+                    </Button>
+                    <Label Content="Cool"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Bottom"
                            Background="#A0000000"

@@ -12,7 +12,7 @@
                 HorizontalAlignment="Center">
         <StackPanel VerticalAlignment="Center">
             <Label Content="Brush Size" />
-            <ComboBox Width="100"
+            <ComboBox Width="50"
                       Height="25"
                       Margin="10"
                       x:Name="PenSizeChooser"
@@ -96,7 +96,7 @@
                 Click="EllipseTool_Click">
             <WrapPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
-                <Image Source="/Images/eraser.png"
+                <Image Source="/Images/ellipse.png"
                        Width="20"
                        Height="20"
                        Margin="0,0,5,0" />
@@ -116,7 +116,7 @@
                 Click="RectangleTool_Click">
             <WrapPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
-                <Image Source="/Images/eraser.png"
+                <Image Source="/Images/rectangle(1).png"
                        Width="20"
                        Height="20"
                        Margin="0,0,5,0" />
@@ -136,7 +136,7 @@
                 Click="LineTool_Click">
             <WrapPanel VerticalAlignment="Center"
                        HorizontalAlignment="Center">
-                <Image Source="/Images/eraser.png"
+                <Image Source="/Images/line.png"
                        Width="20"
                        Height="20"
                        Margin="0,0,5,0" />
