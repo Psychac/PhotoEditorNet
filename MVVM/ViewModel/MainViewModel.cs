@@ -39,7 +39,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
 
         }
 
-        public Boolean isCropOn = false;
+        
         public RelayCommand RotateViewCommand { get; set; }
         public RelayCommand CropViewCommand { get; set; }
         public RelayCommand LightViewCommand { get; set; }
@@ -88,7 +88,7 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 toRemove = toRemoveArray[0];
                 myAdornerLayer.Remove(toRemove);
             }
-
+            window2.selectionRectangle.Visibility = Visibility.Collapsed;
             window2.CroppingArea.Visibility = Visibility.Collapsed;
         }
 
@@ -133,10 +133,11 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 SetImage();
                 window2.isDrawingModeOn = false;
                 window2.AllowPan.IsChecked = true;
-                if (isCropOn)
+                window2.AddTextBlock.Visibility = Visibility.Collapsed;
+                if (window2.isCropModeOn)
                 {
                     ExitCrop();
-                    isCropOn = false;
+                    window2.isCropModeOn = false;
                 }
             });
 
@@ -148,25 +149,26 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 window2 = Application.Current.Windows
                 .Cast<Window>()
                 .FirstOrDefault(window => window is MainWindow) as MainWindow;
+                
                 window2.isDrawingModeOn = false;
                 window2.ResetZoomAndPan();
                 window2.AllowPan.IsChecked = false;
-                //System.Windows.Shapes.Rectangle rect;
-                //window2.CroppingArea.Visibility = Visibility.Visible;
-                //rect = window2.CroppingArea;
-                //rect.Stroke = new SolidColorBrush(Colors.Black);
-                //rect.Fill = new SolidColorBrush(Colors.Black);
-                //rect.Opacity = 0.2;
-                //rect.StrokeThickness = 2;
-                //rect.Width = 200;
-                //rect.Height = 200;
+                window2.AddTextBlock.Visibility = Visibility.Collapsed;
 
-                //Canvas.SetLeft(rect, (510 - window2.MainImage.ActualWidth / 2));
-                //Canvas.SetTop(rect, 0);
+                System.Windows.Shapes.Rectangle rect;
+                window2.CroppingArea.Visibility = Visibility.Visible;
+                rect = window2.CroppingArea;
+                rect.Stroke = new SolidColorBrush(Colors.Black);
+                rect.Fill = new SolidColorBrush(Colors.Black);
+                rect.Opacity = 0.2;
+                rect.StrokeThickness = 2;
+                rect.Width = 200;
+                rect.Height = 200;
 
-                //var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.CroppingArea);
-                //myAdornerLayer.Add(new SimpleCircleAdorner(rect));
-                isCropOn = true;
+
+                var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.CroppingArea);
+                myAdornerLayer.Add(new SimpleCircleAdorner(rect));
+                window2.isCropModeOn = true;
             });
 
             LightViewCommand = new RelayCommand(o =>
@@ -175,10 +177,11 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 SetImage();
                 window2.isDrawingModeOn = false;
                 window2.AllowPan.IsChecked = true;
-                if (isCropOn)
+                window2.AddTextBlock.Visibility = Visibility.Collapsed;
+                if (window2.isCropModeOn)
                 {
                     ExitCrop();
-                    isCropOn = false;
+                    window2.isCropModeOn = false;
                 }
             });
 
@@ -188,10 +191,11 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 SetImage();
                 window2.isDrawingModeOn = false;
                 window2.AllowPan.IsChecked = true;
-                if (isCropOn)
+                window2.AddTextBlock.Visibility = Visibility.Collapsed;
+                if (window2.isCropModeOn)
                 {
                     ExitCrop();
-                    isCropOn = false;
+                    window2.isCropModeOn = false;
                 }
             });
 
@@ -201,10 +205,11 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 SetImage();
                 window2.isDrawingModeOn = false;
                 window2.AllowPan.IsChecked = true;
-                if (isCropOn)
+                window2.AddTextBlock.Visibility = Visibility.Collapsed;
+                if (window2.isCropModeOn)
                 {
                     ExitCrop();
-                    isCropOn = false;
+                    window2.isCropModeOn = false;
                 }
             });
 
@@ -215,21 +220,22 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 window2.ResetZoomAndPan();
                 window2.AllowPan.IsChecked = false;
                 window2.isDrawingModeOn = true;
+                window2.AddTextBlock.Visibility = Visibility.Collapsed;
                 if(window2.EditedImage != null)
                 {
                     BitmapImage img = window2.MainImage.Source as BitmapImage;
                     window2.bmp = new Bitmap(img.StreamSource);
                     window2.g = Graphics.FromImage(window2.bmp);
                     //window2.g.Clear(System.Drawing.Color.White);
-                    window2.scaleWidth = (img.PixelWidth) / (window2.MainImage.ActualWidth);
-                    window2.scaleHeight = (img.PixelHeight) / (window2.MainImage.ActualHeight);
+                    window2.scaleWidth = (float)((img.PixelWidth) / (window2.MainImage.ActualWidth));
+                    window2.scaleHeight =(float)((img.PixelHeight) / (window2.MainImage.ActualHeight));
                     window2.MainImage.Source = BitmapToSource(window2.bmp);
                 }
                 
-                if (isCropOn)
+                if (window2.isCropModeOn)
                 {
                     ExitCrop();
-                    isCropOn = false;
+                    window2.isCropModeOn = false;
                 }
             });
 
@@ -241,12 +247,12 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 window2.AllowPan.IsChecked = false;
                 window2.isDrawingModeOn = false;
                 BitmapImage img = window2.MainImage.Source as BitmapImage;
-                window2.scaleWidth = (img.PixelWidth) / (window2.MainImage.ActualWidth);
-                window2.scaleHeight = (img.PixelHeight) / (window2.MainImage.ActualHeight);
-                if (isCropOn)
+                window2.scaleWidth = (float)(img.PixelWidth / window2.MainImage.ActualWidth);
+                window2.scaleHeight = (float)(img.PixelHeight / window2.MainImage.ActualHeight);
+                if (window2.isCropModeOn)
                 {
                     ExitCrop();
-                    isCropOn = false;
+                    window2.isCropModeOn = false;
                 }
             });
 

@@ -214,9 +214,12 @@ namespace PhotoEditorNet.MVVM.Views
             SolidBrush brush = new SolidBrush(drawingcolor);
 
             string text = window2.AddTextBlock.Text;
-            Int32 xs = Convert.ToInt32(Canvas.GetLeft(window2.AddTextBlock) * window2.scaleWidth);
-            Int32 ys = Convert.ToInt32(Canvas.GetTop(window2.AddTextBlock) * window2.scaleHeight);
-            graphics.DrawString(text, font1, brush, xs, ys);
+            var leftPos = Canvas.GetLeft(window2.AddTextBlock) * window2.scaleWidth;
+            var topPos = Canvas.GetTop(window2.AddTextBlock) * window2.scaleHeight;
+            PointF pointF = new PointF((float)(leftPos), (float)topPos);
+            //Int32 xs = Convert.ToInt32(Canvas.GetLeft(window2.AddTextBlock));
+            //Int32 ys = Convert.ToInt32(Canvas.GetTop(window2.AddTextBlock));
+            graphics.DrawString(text, font1, brush, pointF);
             window2.AddTextBlock.Visibility = Visibility.Collapsed;
             window2.EditedImage = image;
             window2.MainImage.Source = BitmapToSource(image);

@@ -156,28 +156,42 @@ namespace PhotoEditorNet
             double deltaHorizontal = Math.Min(-e, _rectangle.ActualWidth - _rectangle.MinWidth);
             Canvas.SetTop(_rectangle, Canvas.GetTop(_rectangle) - transformOrigin.X * deltaHorizontal * Math.Sin(angle));
             Canvas.SetLeft(_rectangle, Canvas.GetLeft(_rectangle) + (deltaHorizontal * transformOrigin.X * (1 - Math.Cos(angle))));
-            _rectangle.Width -= deltaHorizontal;
+            if(_rectangle.Width - deltaHorizontal > 10)
+            {
+                _rectangle.Width -= deltaHorizontal;
+            }
+            
         }
         private void ResizeX(double e)
         {
             double deltaHorizontal = Math.Min(e, _rectangle.ActualWidth - _rectangle.MinWidth);
             Canvas.SetTop(_rectangle, Canvas.GetTop(_rectangle) + deltaHorizontal * Math.Sin(angle) - transformOrigin.X * deltaHorizontal * Math.Sin(angle));
             Canvas.SetLeft(_rectangle, Canvas.GetLeft(_rectangle) + deltaHorizontal * Math.Cos(angle) + (transformOrigin.X * deltaHorizontal * (1 - Math.Cos(angle))));
-            _rectangle.Width -= deltaHorizontal;
+            if (_rectangle.Width - deltaHorizontal > 10)
+            {
+                _rectangle.Width -= deltaHorizontal;
+            }
         }
         private void ResizeHeight(double e)
         {
             double deltaVertical = Math.Min(-e, _rectangle.ActualHeight - _rectangle.MinHeight);
             Canvas.SetTop(_rectangle, Canvas.GetTop(_rectangle) + (transformOrigin.Y * deltaVertical * (1 - Math.Cos(-angle))));
             Canvas.SetLeft(_rectangle, Canvas.GetLeft(_rectangle) - deltaVertical * transformOrigin.Y * Math.Sin(-angle));
-            _rectangle.Height -= deltaVertical;
+            if (_rectangle.Height - deltaVertical > 10)
+            {
+                _rectangle.Height -= deltaVertical;
+            }
         }
         private void ResizeY(double e)
         {
             double deltaVertical = Math.Min(e, _rectangle.ActualHeight - _rectangle.MinHeight);
             Canvas.SetTop(_rectangle, Canvas.GetTop(_rectangle) + deltaVertical * Math.Cos(-angle) + (transformOrigin.Y * deltaVertical * (1 - Math.Cos(-angle))));
             Canvas.SetLeft(_rectangle, Canvas.GetLeft(_rectangle) + deltaVertical * Math.Sin(-angle) - (transformOrigin.Y * deltaVertical * Math.Sin(-angle)));
-            _rectangle.Height -= deltaVertical;
+            if(_rectangle.Height - deltaVertical > 10)
+            {
+                _rectangle.Height -= deltaVertical;
+            }
+            
         }
 
         protected override Size ArrangeOverride(Size finalSize)

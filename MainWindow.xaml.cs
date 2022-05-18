@@ -45,7 +45,7 @@ namespace PhotoEditorNet
         System.Drawing.Pen p;
         System.Drawing.Pen eraser = new System.Drawing.Pen(System.Drawing.Color.White, 5);
         public int index = 0;
-        public double scaleWidth, scaleHeight;
+        public float scaleWidth, scaleHeight;
         public int xX, yY, cX, cY, sX, sY;
 
         public bool isDragging;
@@ -53,6 +53,8 @@ namespace PhotoEditorNet
 
         private Boolean isOriginalShowing = false;
         //public string FileName { get; set; } 
+
+        public bool isCropModeOn = false;
 
         System.Windows.Point start;
         System.Windows.Point origin;
@@ -152,7 +154,7 @@ namespace PhotoEditorNet
             }
             else
             {
-                if (!isDragging && !isDrawingModeOn)
+                if (!isDragging && !isDrawingModeOn && isCropModeOn)
                 {
                     anchorPoint.X = e.GetPosition(BackPanel).X;
                     anchorPoint.Y = e.GetPosition(BackPanel).Y;
@@ -183,7 +185,7 @@ namespace PhotoEditorNet
             }
             else
             {
-                if (isDragging && !isDrawingModeOn)
+                if (isCropModeOn && isDragging && !isDrawingModeOn)
                 {
                     double x = e.GetPosition(BackPanel).X;
                     double y = e.GetPosition(BackPanel).Y;
@@ -196,6 +198,7 @@ namespace PhotoEditorNet
                         selectionRectangle.Visibility = Visibility.Visible;
                 }
             }
+
             if (isDrawingModeOn && paint && MainImage.IsMouseCaptured)
             {
                 System.Windows.Point pos = e.GetPosition(MainImage);
@@ -249,14 +252,15 @@ namespace PhotoEditorNet
                 }
                 MainImage.Source = BitmapToSource(bmp);
             }
+
             MainImage.ReleaseMouseCapture();
-            if (isDragging && !isDrawingModeOn )
+            
+            if (isCropModeOn && isDragging && !isDrawingModeOn )
             {
                 isDragging = false;
                 if (selectionRectangle.Visibility != Visibility.Visible)
                     selectionRectangle.Visibility = Visibility.Visible;
             }
-
         }
 
         //reset zoom and pan button code
@@ -305,12 +309,14 @@ namespace PhotoEditorNet
         private void DiscardChanges_Click(object sender, RoutedEventArgs e)
         {
             MainImage.Source = BitmapToSource(new Bitmap(OriginalImage));
+            EditedImage = OriginalImage;
         }
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
             BitmapImage img = MainImage.Source as BitmapImage;
             OriginalImage = new Bitmap(img.StreamSource);
+            EditedImage = OriginalImage;
         }
 
         private void CompareToOriginal_Click(object sender, RoutedEventArgs e)
@@ -436,7 +442,10 @@ namespace PhotoEditorNet
                 Bitmap temp = undoStack.Pop();
                 redoStack.Push(temp);
                 if (undoStack.Count > 0)
+                {
                     MainImage.Source = BitmapToSource(undoStack.Peek());
+                    EditedImage = undoStack.Peek();
+                }
                 else
                 {
                     MainImage.Source = BitmapToSource(OriginalImage);
@@ -455,6 +464,7 @@ namespace PhotoEditorNet
                 Bitmap temp = redoStack.Pop();
                 undoStack.Push(temp);
                 MainImage.Source = BitmapToSource(temp);
+                EditedImage = temp;
             }
         }
 
