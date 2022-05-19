@@ -430,7 +430,10 @@
                                        MaxHeight="{Binding ElementName=MainImage, Path=ActualHeight}"
                                        MaxWidth="{Binding ElementName=MainImage, Path=ActualWidth}"
                                        MinHeight="5"
-                                       MinWidth="5"></Rectangle>
+                                       MinWidth="5"
+                                       MouseLeftButtonDown="CroppingArea_MouseLeftButtonDown"
+                                       MouseMove="CroppingArea_MouseMove"
+                                       MouseLeftButtonUp="CroppingArea_MouseLeftButtonUp"></Rectangle>
                             <Rectangle x:Name="selectionRectangle"
                                        Stroke="LightBlue"
                                        Fill="#220000FF"

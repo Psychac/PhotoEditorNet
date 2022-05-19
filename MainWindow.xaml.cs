@@ -87,7 +87,7 @@ namespace PhotoEditorNet
             {
                 OriginalImage = new Bitmap(ofd.FileName);
                 EditedImage = OriginalImage;
-                undoStack.Push(EditedImage);
+                //undoStack.Push(EditedImage);
                 MainImage.Source = BitmapToSource(new Bitmap(EditedImage));
 
                 if (OriginalImage.Width > 1040 || OriginalImage.Height > 480)
@@ -123,6 +123,14 @@ namespace PhotoEditorNet
 
         private void CloseFile_Click(object sender, RoutedEventArgs e)
         {
+            if(OriginalImage != null)
+            {
+                OriginalImage.Dispose();
+                OriginalImage = null;
+                EditedImage.Dispose();
+                EditedImage = null;
+            }
+                
             MainImage.Width = 64;
             MainImage.Height = (double)64;
             Canvas.SetLeft(ImageGrid, (510 - MainImage.Width / 2));
@@ -309,30 +317,40 @@ namespace PhotoEditorNet
 
         private void DiscardChanges_Click(object sender, RoutedEventArgs e)
         {
-            MainImage.Source = BitmapToSource(new Bitmap(OriginalImage));
-            EditedImage = OriginalImage;
+            if(OriginalImage != null)
+            {
+                MainImage.Source = BitmapToSource(new Bitmap(OriginalImage));
+                EditedImage = OriginalImage;
+            }
+            
         }
 
         private void SaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            BitmapImage img = MainImage.Source as BitmapImage;
-            OriginalImage = new Bitmap(img.StreamSource);
-            EditedImage = OriginalImage;
+            if(OriginalImage != null)
+            {
+                BitmapImage img = MainImage.Source as BitmapImage;
+                OriginalImage = new Bitmap(img.StreamSource);
+                EditedImage = OriginalImage;
+            }
         }
 
         private void CompareToOriginal_Click(object sender, RoutedEventArgs e)
         {
-            if (isOriginalShowing)
+            if(OriginalImage != null)
             {
-                MainImage.Source = BitmapToSource((Bitmap)tempImage);
+                if (isOriginalShowing)
+                {
+                    MainImage.Source = BitmapToSource((Bitmap)tempImage);
+                }
+                else
+                {
+                    BitmapImage img = MainImage.Source as BitmapImage;
+                    tempImage = new Bitmap(img.StreamSource);
+                    MainImage.Source = BitmapToSource(new Bitmap(OriginalImage));
+                }
+                isOriginalShowing = !isOriginalShowing;
             }
-            else
-            {
-                BitmapImage img = MainImage.Source as BitmapImage;
-                tempImage = new Bitmap(img.StreamSource);
-                MainImage.Source = BitmapToSource(new Bitmap(OriginalImage));
-            }
-            isOriginalShowing = !isOriginalShowing;
         }
 
         //Method for comparing bitmaps
@@ -372,64 +390,69 @@ namespace PhotoEditorNet
             return result;
         }
 
+        
+
         private void Export_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog save = new SaveFileDialog();
-            save.Title = "Save image as ";
-            save.Filter = "Jpeg Image | *.jpg |PNG Image | *.png | Bitmap Image | *.bmp ";
-
-            BitmapImage img = MainImage.Source as BitmapImage;
-            tempImage = new Bitmap(img.StreamSource);
-            //if image is not saved yet
-            if (!CompareBitmapsFast(OriginalImage,tempImage))
+            if(OriginalImage != null)
             {
-                //Display MessageBox asking to save image
-                MessageBoxResult result = MessageBox.Show("Exporting without saving will result in the changes not showing in the exported file. Do you wish to save before exporting?",
-                    "Disclaimer",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Warning);
+                SaveFileDialog save = new SaveFileDialog();
+                save.Title = "Save image as ";
+                save.Filter = "Jpeg Image | *.jpg |PNG Image | *.png | Bitmap Image | *.bmp ";
 
-                if (result == MessageBoxResult.Yes)
+                BitmapImage img = MainImage.Source as BitmapImage;
+                tempImage = new Bitmap(img.StreamSource);
+                //if image is not saved yet
+                if (!CompareBitmapsFast(OriginalImage, tempImage))
                 {
-                    OriginalImage = new Bitmap(img.StreamSource);
-                }
-            }
+                    //Display MessageBox asking to save image
+                    MessageBoxResult result = MessageBox.Show("Exporting without saving will result in the changes not showing in the exported file. Do you wish to save before exporting?",
+                        "Disclaimer",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning);
 
-            if (OriginalImage != null)
-            {
-                if (save.ShowDialog() == true)
-                {
-                    switch (save.FilterIndex)
+                    if (result == MessageBoxResult.Yes)
                     {
-                        case 1:
-                            {
-                                ImageCodecInfo jgpEncoder = ImageCodecInfo.GetImageDecoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
-                                System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
-                                var myEncoderParameters = new EncoderParameters(1);
-                                var myEncoderParameter = new EncoderParameter(myEncoder, 100L);
-                                myEncoderParameters.Param[0] = myEncoderParameter;
-                                using (Stream stm = File.Create(save.FileName))
+                        OriginalImage = new Bitmap(img.StreamSource);
+                    }
+                }
+
+                if (OriginalImage != null)
+                {
+                    if (save.ShowDialog() == true)
+                    {
+                        switch (save.FilterIndex)
+                        {
+                            case 1:
                                 {
-                                    OriginalImage.Save(stm, jgpEncoder, myEncoderParameters);
+                                    ImageCodecInfo jgpEncoder = ImageCodecInfo.GetImageDecoders().First(c => c.FormatID == ImageFormat.Jpeg.Guid);
+                                    System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                                    var myEncoderParameters = new EncoderParameters(1);
+                                    var myEncoderParameter = new EncoderParameter(myEncoder, 100L);
+                                    myEncoderParameters.Param[0] = myEncoderParameter;
+                                    using (Stream stm = File.Create(save.FileName))
+                                    {
+                                        OriginalImage.Save(stm, jgpEncoder, myEncoderParameters);
+                                    }
+                                    break;
                                 }
-                                break;
-                            }
-                        case 2:
-                            {
-                                using (Stream stm = File.Create(save.FileName))
+                            case 2:
                                 {
-                                    OriginalImage.Save(stm, ImageFormat.Png);
+                                    using (Stream stm = File.Create(save.FileName))
+                                    {
+                                        OriginalImage.Save(stm, ImageFormat.Png);
+                                    }
+                                    break;
                                 }
-                                break;
-                            }
-                        case 3:
-                            {
-                                using (Stream stm = File.Create(save.FileName))
+                            case 3:
                                 {
-                                    OriginalImage.Save(stm, ImageFormat.Bmp);
+                                    using (Stream stm = File.Create(save.FileName))
+                                    {
+                                        OriginalImage.Save(stm, ImageFormat.Bmp);
+                                    }
+                                    break;
                                 }
-                                break;
-                            }
+                        }
                     }
                 }
             }
@@ -454,6 +477,12 @@ namespace PhotoEditorNet
                 }
                     
             }
+            if(EditedImage != null)
+            {
+                BitmapImage img = MainImage.Source as BitmapImage;
+                bmp = new Bitmap(img.StreamSource);
+                g = Graphics.FromImage(bmp);
+            }
 
         }
 
@@ -466,6 +495,12 @@ namespace PhotoEditorNet
                 undoStack.Push(temp);
                 MainImage.Source = BitmapToSource(temp);
                 EditedImage = temp;
+            }
+            if(EditedImage != null)
+            {
+                BitmapImage img = MainImage.Source as BitmapImage;
+                bmp = new Bitmap(img.StreamSource);
+                g = Graphics.FromImage(bmp);
             }
         }
 
@@ -503,6 +538,34 @@ namespace PhotoEditorNet
         }
         #endregion
 
-        
+        #region Drag and drop functionality for cropping area
+        private void CroppingArea_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            CroppingArea.CaptureMouse();
+            initialOffset = e.GetPosition(BackPanel);
+        }
+
+        private void CroppingArea_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (CroppingArea.IsMouseCaptured)
+            {
+                System.Windows.Point changeOffset = e.GetPosition(BackPanel);
+                if (changeOffset.X >= 0 && changeOffset.X <= BackPanel.ActualWidth - CroppingArea.ActualWidth)
+                {
+                    Canvas.SetLeft(CroppingArea, changeOffset.X);
+                }
+                if (changeOffset.Y >= 0 && changeOffset.Y <= BackPanel.ActualHeight - CroppingArea.ActualHeight)
+                {
+                    Canvas.SetTop(CroppingArea, changeOffset.Y);
+                }
+
+            }
+        }
+
+        private void CroppingArea_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            CroppingArea.ReleaseMouseCapture();
+        }
+        #endregion
     }
 }

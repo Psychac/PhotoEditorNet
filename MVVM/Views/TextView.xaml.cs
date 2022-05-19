@@ -205,7 +205,7 @@ namespace PhotoEditorNet.MVVM.Views
             //Converting font from media to drawing
             System.ComponentModel.TypeConverter converter =
             System.ComponentModel.TypeDescriptor.GetConverter(typeof(Font));
-            Font font1 = (Font)converter.ConvertFromString($"{selected.SelectedFontFamily.Source}, {selected.SelectedFontSize*72/96}pt");
+            Font font1 = (Font)converter.ConvertFromString($"{selected.SelectedFontFamily.Source}, {selected.SelectedFontSize}pt");
 
             //Converting color from media to drawing
             System.Windows.Media.Color mediacolor = selected.SelectedFontColor.Color; // your color
@@ -214,11 +214,11 @@ namespace PhotoEditorNet.MVVM.Views
             SolidBrush brush = new SolidBrush(drawingcolor);
 
             string text = window2.AddTextBlock.Text;
+            Canvas.SetLeft(window2.AddTextBlock, 0);
+            Canvas.SetTop(window2.AddTextBlock, 0);
             var leftPos = Canvas.GetLeft(window2.AddTextBlock) * window2.scaleWidth;
             var topPos = Canvas.GetTop(window2.AddTextBlock) * window2.scaleHeight;
             PointF pointF = new PointF((float)(leftPos), (float)topPos);
-            //Int32 xs = Convert.ToInt32(Canvas.GetLeft(window2.AddTextBlock));
-            //Int32 ys = Convert.ToInt32(Canvas.GetTop(window2.AddTextBlock));
             graphics.DrawString(text, font1, brush, pointF);
             window2.AddTextBlock.Visibility = Visibility.Collapsed;
             window2.EditedImage = image;

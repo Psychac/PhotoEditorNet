@@ -145,32 +145,6 @@ namespace PhotoEditorNet.MVVM.Views
                 Canvas.SetLeft(window2.CroppingArea, 0);
                 Canvas.SetTop(window2.CroppingArea, 0);
 
-                /*var img = window2.MainImage.Source as BitmapImage;
-                //var xdpi = img.DpiX;
-                //DPI.Text = "xdpi = " + xdpi.ToString();
-                //var renderedHeight = window2.MainImage.Height;
-                //var renderedWidth = window2.MainImage.Width;
-                //var imageHeight = img.PixelHeight;
-                //var imageWidth = img.PixelWidth;
-                //var widthRatio = (int)Math.Round(imageWidth / renderedWidth);
-                //var heightRatio = (int)Math.Round(imageHeight / renderedHeight);
-                //beforeEdit = new Bitmap(img.StreamSource);
-                //BitmapSource image = BitmapToSource((Bitmap)beforeEdit);
-                ////double imageLeft, imageTop, imageRight, imageBottom;
-                ////imageLeft = 500 - window2.MainImage.ActualWidth / 2;
-                ////imageTop = 210 - window2.MainImage.ActualHeight / 2;
-                ////imageBottom = (imageTop + window2.MainImage.ActualHeight);
-                ////imageRight = (imageLeft + window2.MainImage.ActualWidth);
-                //Int32Rect rect = new Int32Rect(
-                //    (int)Canvas.GetLeft(window2.CroppingArea) * widthRatio,
-                //    (int)Canvas.GetTop(window2.CroppingArea) * heightRatio,
-                //    (int)window2.CroppingArea.ActualWidth * widthRatio,
-                //    (int)window2.CroppingArea.ActualHeight * heightRatio);
-                //CroppedBitmap croppedImage = new CroppedBitmap(image, rect);
-                ////window2.MainImage.Source = CroppedToSource(croppedImage); ;
-
-                //window2.MainImage.Source = croppedImage;
-                */
             }
             
         }

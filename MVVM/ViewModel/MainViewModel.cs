@@ -158,8 +158,8 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 System.Windows.Shapes.Rectangle rect;
                 window2.CroppingArea.Visibility = Visibility.Visible;
                 rect = window2.CroppingArea;
-                rect.Stroke = new SolidColorBrush(Colors.Black);
-                rect.Fill = new SolidColorBrush(Colors.Black);
+                rect.Stroke = new SolidColorBrush(Colors.GhostWhite);
+                rect.Fill = new SolidColorBrush(Colors.Blue);
                 rect.Opacity = 0.2;
                 rect.StrokeThickness = 2;
                 rect.Width = rect.MaxWidth/2;
