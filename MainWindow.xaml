@@ -420,18 +420,23 @@
                                 </TransformGroup>
                             </Image.RenderTransform>
                         </Image>
-                        <Rectangle x:Name="CroppingArea"
-                                   Visibility="Collapsed"
-                                   MaxHeight="{Binding ElementName=MainImage, Path=ActualHeight}"
-                                   MaxWidth="{Binding ElementName=MainImage, Path=ActualWidth}"></Rectangle>
+                        
                         <Canvas  x:Name="BackPanel"
+                                 ClipToBounds="True"
                                  Height="{Binding ElementName=MainImage, Path=ActualHeight}"
                                  Width="{Binding ElementName=MainImage, Path=ActualWidth}">
-                            
+                            <Rectangle x:Name="CroppingArea"
+                                       Visibility="Collapsed"
+                                       MaxHeight="{Binding ElementName=MainImage, Path=ActualHeight}"
+                                       MaxWidth="{Binding ElementName=MainImage, Path=ActualWidth}"
+                                       MinHeight="5"
+                                       MinWidth="5"></Rectangle>
                             <Rectangle x:Name="selectionRectangle"
                                        Stroke="LightBlue"
                                        Fill="#220000FF"
-                                       Visibility="Collapsed" />
+                                       Visibility="Collapsed"
+                                       Height="{Binding ElementName=MainImage, Path=ActualHeight}"
+                                       Width="{Binding ElementName=MainImage, Path=ActualWidth}" />
                             <TextBlock x:Name="AddTextBlock"
                                        Visibility="Collapsed"
                                        MouseLeftButtonDown="AddTextBlock_MouseLeftButtonDown"

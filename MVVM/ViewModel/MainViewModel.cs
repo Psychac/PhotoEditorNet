@@ -162,9 +162,13 @@ namespace PhotoEditorNet.MVVM.ViewModel
                 rect.Fill = new SolidColorBrush(Colors.Black);
                 rect.Opacity = 0.2;
                 rect.StrokeThickness = 2;
-                rect.Width = 200;
-                rect.Height = 200;
+                rect.Width = rect.MaxWidth/2;
+                rect.Height = rect.MaxHeight/2;
 
+                var distanceFromLeft = window2.CroppingArea.MaxWidth / 2 - window2.CroppingArea.Width / 2;
+                Canvas.SetLeft(window2.CroppingArea, distanceFromLeft);
+                var distanceFromTop = window2.CroppingArea.MaxHeight / 2 - window2.CroppingArea.Height / 2;
+                Canvas.SetTop(window2.CroppingArea, distanceFromTop);
 
                 var myAdornerLayer = AdornerLayer.GetAdornerLayer(window2.CroppingArea);
                 myAdornerLayer.Add(new SimpleCircleAdorner(rect));

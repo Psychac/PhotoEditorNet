@@ -54,6 +54,7 @@ namespace PhotoEditorNet
         private Boolean isOriginalShowing = false;
         //public string FileName { get; set; } 
 
+        public bool isAspectRatioLocked = false;
         public bool isCropModeOn = false;
 
         System.Windows.Point start;
