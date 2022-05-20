@@ -214,8 +214,7 @@ namespace PhotoEditorNet.MVVM.Views
             SolidBrush brush = new SolidBrush(drawingcolor);
 
             string text = window2.AddTextBlock.Text;
-            Canvas.SetLeft(window2.AddTextBlock, 0);
-            Canvas.SetTop(window2.AddTextBlock, 0);
+            
             var leftPos = Canvas.GetLeft(window2.AddTextBlock) * window2.scaleWidth;
             var topPos = Canvas.GetTop(window2.AddTextBlock) * window2.scaleHeight;
             PointF pointF = new PointF((float)(leftPos), (float)topPos);
@@ -229,6 +228,8 @@ namespace PhotoEditorNet.MVVM.Views
 
         private void AddTextButton_Click(object sender, RoutedEventArgs e)
         {
+            Canvas.SetLeft(window2.AddTextBlock, 0);
+            Canvas.SetTop(window2.AddTextBlock, 0);
             window2.AddTextBlock.Visibility = Visibility.Visible;
 
         }

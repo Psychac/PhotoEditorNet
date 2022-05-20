@@ -161,15 +161,15 @@ namespace PhotoEditorNet
                     .Children.First(tr => tr is TranslateTransform);
                 start = e.GetPosition(border);
             }
-            else
-            {
-                if (!isDragging && !isDrawingModeOn && isCropModeOn)
-                {
-                    anchorPoint.X = e.GetPosition(BackPanel).X;
-                    anchorPoint.Y = e.GetPosition(BackPanel).Y;
-                    isDragging = true;
-                }
-            }
+            //else
+            //{
+            //    if (!isDragging && !isDrawingModeOn && isCropModeOn)
+            //    {
+            //        anchorPoint.X = e.GetPosition(BackPanel).X;
+            //        anchorPoint.Y = e.GetPosition(BackPanel).Y;
+            //        isDragging = true;
+            //    }
+            //}
             //Drawing
             if (isDrawingModeOn)
             {
@@ -192,21 +192,21 @@ namespace PhotoEditorNet
                 tt.X = origin.X - v.X;
                 tt.Y = origin.Y - v.Y;
             }
-            else
-            {
-                if (isCropModeOn && isDragging && !isDrawingModeOn)
-                {
-                    double x = e.GetPosition(BackPanel).X;
-                    double y = e.GetPosition(BackPanel).Y;
-                    selectionRectangle.SetValue(Canvas.LeftProperty, Math.Min(x, anchorPoint.X));
-                    selectionRectangle.SetValue(Canvas.TopProperty, Math.Min(y, anchorPoint.Y));
-                    selectionRectangle.Width = Math.Abs(x - anchorPoint.X);
-                    selectionRectangle.Height = Math.Abs(y - anchorPoint.Y);
+            //else
+            //{
+            //    if (isCropModeOn && isDragging && !isDrawingModeOn)
+            //    {
+            //        double x = e.GetPosition(BackPanel).X;
+            //        double y = e.GetPosition(BackPanel).Y;
+            //        selectionRectangle.SetValue(Canvas.LeftProperty, Math.Min(x, anchorPoint.X));
+            //        selectionRectangle.SetValue(Canvas.TopProperty, Math.Min(y, anchorPoint.Y));
+            //        selectionRectangle.Width = Math.Abs(x - anchorPoint.X);
+            //        selectionRectangle.Height = Math.Abs(y - anchorPoint.Y);
 
-                    if (selectionRectangle.Visibility != Visibility.Visible)
-                        selectionRectangle.Visibility = Visibility.Visible;
-                }
-            }
+            //        if (selectionRectangle.Visibility != Visibility.Visible)
+            //            selectionRectangle.Visibility = Visibility.Visible;
+            //    }
+            //}
 
             if (isDrawingModeOn && paint && MainImage.IsMouseCaptured)
             {
@@ -264,12 +264,12 @@ namespace PhotoEditorNet
 
             MainImage.ReleaseMouseCapture();
             
-            if (isCropModeOn && isDragging && !isDrawingModeOn )
-            {
-                isDragging = false;
-                if (selectionRectangle.Visibility != Visibility.Visible)
-                    selectionRectangle.Visibility = Visibility.Visible;
-            }
+            //if (isCropModeOn && isDragging && !isDrawingModeOn )
+            //{
+            //    isDragging = false;
+            //    if (selectionRectangle.Visibility != Visibility.Visible)
+            //        selectionRectangle.Visibility = Visibility.Visible;
+            //}
         }
 
         //reset zoom and pan button code
